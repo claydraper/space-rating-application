@@ -1,26 +1,30 @@
 // external dependencies
 import React from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import styled from 'styled-components';
 
 // internal dependencies
-import Header from './components/Header';
-import Home from './components/Home';
-import Footer from './components/Footer';
+import './App.css'
+import Home from './components/HomePage';
+import CreateSpacePage from './components/CreateSpacePage';
 
+const Wrapper = styled.div({
+  height: '100vh',
+  width: '100vw',
+})
 
 function App() {
   return (
-    <div>
+    <Wrapper>
       <Router>
-        <Header />
         <Switch>
           <Route path="/" exact component={Home} />
           <Route path="/login" exact component={Home} />
           <Route path="/signup" exact component={Home} />
+          <Route path="/spaces/new" component={CreateSpacePage} />
         </Switch>
-        <Footer />
       </Router>
-    </div>
+    </Wrapper>
   );
 }
 

@@ -7,7 +7,10 @@ import styled from 'styled-components';
 const Wrapper = styled.div({
     backgroundColor: '#33333D',
     color: '#FFFFFF',
-    padding: '1.5rem',
+    height: '60px',
+    lineHeight: '60px',
+    bottom: 0,
+    paddingLeft: '1rem',
 })
 
 // component definition
@@ -15,7 +18,7 @@ const Footer = () => {
 
     return (
         <Wrapper>
-            <p>{'Copyright ' + String.fromCharCode(169) + ' 2020 Third Rate'}</p>
+            <p>{`Copyright ${String.fromCharCode(169)} 2020 Third Rate`}</p>
         </Wrapper>
     )
 }

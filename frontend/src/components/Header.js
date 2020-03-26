@@ -1,6 +1,6 @@
 // external dependencies
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import styled from 'styled-components';
 
 // styled components
@@ -12,7 +12,7 @@ const Wrapper = styled.div({
     height: '60px',
     alignItems: 'center',
     backgroundColor: '#33333D',
-    color: '#FFFFFF'
+    color: '#FFFFFF',
 })
 
 const Brand = styled.div({
@@ -68,4 +68,4 @@ const Header = () => {
     )
 }
 
-export default Header;
+export default withRouter(Header);
