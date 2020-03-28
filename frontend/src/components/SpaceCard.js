@@ -75,7 +75,7 @@ const SpaceCard = (props) => {
                 <Delete className="fas fa-trash-alt"></Delete>
             </IWrap>
             <StyledLink to={`/spaces/${props.details.id}`} >
-                <Img src={props.details.photos[0]} alt={props.details.description} />
+                <Img src={props.details.photo} alt={props.details.name} />
                 <Name>{props.details.name}</Name>
             </StyledLink>
             <Location>{`${props.details.city}, ${props.details.state}`}</Location>

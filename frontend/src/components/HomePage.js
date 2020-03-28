@@ -1,5 +1,5 @@
 // external dependencies
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 
 // internal dependencies
@@ -44,8 +44,26 @@ const CreateButton = styled.button({
     }
 })
 
+const Success = styled.div({
+    position: 'absolute',
+    top: '5rem',
+    display: 'flex',
+    height: '40px',
+    width: '50%',
+    justifyContent: 'center',
+    alignItems: 'center',
+    color: '#286620',
+    backgroundColor: '#adf7a3',
+    borderRadius: '8px',
+
+})
+
 // component definition
 const Home = (props) => {
+
+    if(props.history.location.state === undefined) {
+        props.history.location.state = false
+    }
 
     const handleCreateClick = () => {
         props.history.push('/spaces/new')
@@ -56,6 +74,7 @@ const Home = (props) => {
             <Header />
             <Wrapper>
                 <Container>
+                    {props.history.location.state.successfulSubmit && <Success>Space created successfully</Success>}
                     <h2>Welcome to Third Rate!</h2>
                     <Intro>Check out the list of spaces below or add a new space.</Intro>
                     <CreateButton onClick={() => handleCreateClick()}>Create a new space</CreateButton>

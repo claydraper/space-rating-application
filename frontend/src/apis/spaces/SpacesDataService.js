@@ -10,6 +10,10 @@ class SpacesDataService {
         return axios.post(`${API_URL}/spaces`, space)
     }
 
+    getAllSpaces() {
+        return axios.get(`${API_URL}/spaces`)
+    }
+
 }
 
 export default new SpacesDataService();
