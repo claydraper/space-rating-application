@@ -3,9 +3,6 @@ import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
-// internal dependencies
-import SpacesDataService from '../apis/spaces/SpacesDataService';
-
 // styled components
 const Wrapper = styled.div({
     display: 'flex',
