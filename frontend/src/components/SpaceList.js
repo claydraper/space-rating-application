@@ -1,5 +1,6 @@
 // external dependencies
 import React, {useState, useEffect } from 'react';
+import { withRouter } from 'react-router-dom';
 import styled from 'styled-components';
 
 // local dependencies
@@ -26,7 +27,7 @@ const SpaceGrid = styled.div({
 })
 
 // component definition
-const SpaceList = () => {
+const SpaceList = (props) => {
     const [ spaceDetails, setSpaceDetails ] = useState([])
     //     {
     //         id: 1,
@@ -85,16 +86,20 @@ const SpaceList = () => {
         setSpaceDetails(tempSpaceDetails)
     }
 
+    const handleUpdate = (e, externalId) => {
+        props.history.push(`/spaces/${externalId}`)
+    }
+
     return (
         <Wrapper>
             <div>{spaceDetails.name}</div>
             <SpaceGrid>
             {spaceDetails.map((detail, index) => (
-                <SpaceCard key={detail.externalId} details={detail} index={index} handleDelete={handleDelete}/>
+                <SpaceCard key={detail.externalId} details={detail} index={index} handleDelete={handleDelete} handleUpdate={handleUpdate} />
             ))}
             </SpaceGrid>
         </Wrapper>
     )
 }
 
-export default SpaceList;
+export default withRouter(SpaceList);

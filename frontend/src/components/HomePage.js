@@ -74,6 +74,7 @@ const Home = (props) => {
             <Header />
             <Wrapper>
                 <Container>
+                    {props.history.location.state.successfulUpdate && <Success>Space updated successfully</Success>}
                     {props.history.location.state.successfulSubmit && <Success>Space created successfully</Success>}
                     <h2>Welcome to Third Rate!</h2>
                     <Intro>Check out the list of spaces below or add a new space.</Intro>

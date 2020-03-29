@@ -27,7 +27,7 @@ public class SpaceController {
 	SpaceService spaceService;
 
 	@GetMapping(path = "/spaces")
-	public List<SpaceReturnModel> getAllUsers() {
+	public List<SpaceReturnModel> getAllSpaces() {
 
 		List<SpaceReturnModel> returnValue = new ArrayList<>();
 		
@@ -38,6 +38,17 @@ public class SpaceController {
 			BeanUtils.copyProperties(spaceDto, spaceReturnModel);
 			returnValue.add(spaceReturnModel);
 		}
+		
+		return returnValue;
+	}
+	
+	@GetMapping(path = "/spaces/{externalId}")
+	public SpaceReturnModel getSpace(@PathVariable String externalId) {
+		SpaceReturnModel returnValue = new SpaceReturnModel();
+		
+		SpaceDto spaceDto = spaceService.getSpaceByexternalId(externalId);
+		
+		BeanUtils.copyProperties(spaceDto, returnValue);
 		
 		return returnValue;
 	}
@@ -57,13 +68,22 @@ public class SpaceController {
 		return returnValue;
 	}
 	
-	@PutMapping(path="/spaces/{id}")
-	public String updateSpace() {
-		return "update space was called";
+	@PutMapping(path="/spaces/{externalId}")
+	public SpaceReturnModel updateUser(@PathVariable String externalId, @RequestBody SpaceRequestModel spaceDetails) {
+	
+	SpaceReturnModel returnValue = new SpaceReturnModel();
+	
+	SpaceDto spaceDto = new SpaceDto();
+	BeanUtils.copyProperties(spaceDetails, spaceDto);
+	
+	SpaceDto updatedSpace = spaceService.updateSpace(externalId, spaceDto);
+	BeanUtils.copyProperties(updatedSpace, returnValue);
+	
+	return returnValue;
 	}
 	
-	@DeleteMapping(path = "/spaces/{id}")
-	public void deleteSpace(@PathVariable String id) {
-		spaceService.deleteSpace(id);
+	@DeleteMapping(path = "/spaces/{externalId}")
+	public void deleteSpace(@PathVariable String externalId) {
+		spaceService.deleteSpace(externalId);
 	}
 }

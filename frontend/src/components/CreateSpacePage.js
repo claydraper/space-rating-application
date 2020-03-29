@@ -1,5 +1,5 @@
 // external dependencies
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 
 // internal dependencies
@@ -95,14 +95,25 @@ const CreateSpacePage = (props) => {
         state: null,
         description: null,
         photo: null,
-        image: null,
     })
 
-    window.onbeforeunload = () => {
-        props.history.replaceState(false)
-        console.log("onbeforeunload fired")
-        console.log(props.history.state)
-    }
+    useEffect(() => {
+        if (props.match.params.id === "new") {
+            return
+        }
+        SpacesDataService.getSpace(props.match.params.id)
+            .then(
+                response => {
+                    setSpaceDetails({
+                        name: response.data.name,
+                        city: response.data.city,
+                        state: response.data.state,
+                        description: response.data.description,
+                        photo: response.data.photo,
+                    })
+                }
+            )
+    }, [props.match.params.id])
 
     const handleChange = (e) => {
         setSpaceDetails({
@@ -112,27 +123,43 @@ const CreateSpacePage = (props) => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        SpacesDataService.createSpace({
-            name: spaceDetails.name,
-            city: spaceDetails.city,
-            state: spaceDetails.state,
-            description: spaceDetails.description,
-            photo: spaceDetails.photo
-        }).then(() => {
-            console.log(spaceDetails)
-            props.history.push("/", { successfulSubmit: true })
-            console.log(props.history)
-            
-            let timeout = window.setTimeout(() => {
-                props.history.replace("/", { successfulSubmit: false })
-            }, 2000)
+        if (props.match.params.id === "new") {
+            SpacesDataService.createSpace({
+                name: spaceDetails.name,
+                city: spaceDetails.city,
+                state: spaceDetails.state,
+                description: spaceDetails.description,
+                photo: spaceDetails.photo
+            }).then(() => {
+                props.history.push("/", { successfulSubmit: true })
 
-            window.onclick = () => {
-                clearTimeout(timeout)
-            }
-        }).catch(error => {
-            console.log(error.response)
-        })
+                let timeout = window.setTimeout(() => {
+                    props.history.replace("/", { successfulSubmit: false })
+                }, 2000)
+
+                window.onclick = () => {
+                    clearTimeout(timeout)
+                }
+            })
+        } else {
+            SpacesDataService.updateSpace(props.match.params.id, {
+                name: spaceDetails.name,
+                city: spaceDetails.city,
+                state: spaceDetails.state,
+                description: spaceDetails.description,
+                photo: spaceDetails.photo
+            }).then(() => {
+                props.history.push("/", { successfulUpdate: true })
+
+                let timeout = window.setTimeout(() => {
+                    props.history.replace("/", { successfulUpdate: false })
+                }, 2000)
+
+                window.onclick = () => {
+                    clearTimeout(timeout)
+                }
+            })
+        }
     }
 
 
@@ -141,7 +168,8 @@ const CreateSpacePage = (props) => {
             <Header />
             <Wrapper>
                 <Form onSubmit={(e) => handleSubmit(e)} >
-                    <Title>Create a new space</Title>
+                    {props.match.params.id !== "new" && <Title>Edit space</Title>}
+                    {props.match.params.id === "new" && <Title>Create a new space</Title>}
                     <Container>
                         <Label htmlFor="name">Name</Label>
                         <Input onChange={(e) => handleChange(e)} type="text" name="name" value={spaceDetails.name || ""} />

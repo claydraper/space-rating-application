@@ -60,15 +60,10 @@ const StyledLink = styled(Link)({
 // component definition
 const SpaceCard = (props) => {
 
-    const handleUpdate = () => {
-        // props.history.push(`/users/${props.details.id}`)
-        console.log(props.details)
-    }
-
     return (
         <Wrapper>
             <IWrap>
-                <Edit onClick={handleUpdate} className="fas fa-edit"></Edit>
+                <Edit onClick={(e) => props.handleUpdate(e, props.details.externalId)} className="fas fa-edit"></Edit>
                 <Delete onClick={(e) => props.handleDelete(e, props.details.externalId, props.index)} className="fas fa-trash-alt"></Delete>
             </IWrap>
             <StyledLink to={`/spaces/${props.details.id}`} >

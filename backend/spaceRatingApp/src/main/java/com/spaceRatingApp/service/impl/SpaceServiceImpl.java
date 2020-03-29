@@ -45,7 +45,6 @@ public class SpaceServiceImpl implements SpaceService {
 		List<SpaceDto> returnValue = new ArrayList<>();
 				
 		List<SpaceEntity> spaces =  (List<SpaceEntity>) spaceRepository.findAll();
-//		List<UserEntity> users = usersPage.getContent();
 		
 		for(SpaceEntity spaceEntity : spaces) {
 			SpaceDto spaceDto = new SpaceDto();
@@ -61,6 +60,37 @@ public class SpaceServiceImpl implements SpaceService {
 				
 		spaceRepository.delete(spaceEntity);
 		
+	}
+	
+	@Override
+	public SpaceDto getSpaceByexternalId(String externalId) {
+		
+		SpaceDto returnValue = new SpaceDto();
+		
+		SpaceEntity spaceEntity = spaceRepository.findByExternalId(externalId);
+				
+		BeanUtils.copyProperties(spaceEntity, returnValue);
+		
+		return returnValue;
+	}
+
+	@Override
+	public SpaceDto updateSpace(String externalId, SpaceDto spaceDto) {
+		SpaceDto returnValue = new SpaceDto();
+		
+		SpaceEntity spaceEntity = spaceRepository.findByExternalId(externalId);
+				
+		spaceEntity.setCity(spaceDto.getCity());
+		spaceEntity.setDescription(spaceDto.getDescription());
+		spaceEntity.setName(spaceDto.getName());
+		spaceEntity.setPhoto(spaceDto.getPhoto());
+		spaceEntity.setState(spaceDto.getState());
+		
+		SpaceEntity updatedSpaceDetails = spaceRepository.save(spaceEntity);
+		
+		BeanUtils.copyProperties(updatedSpaceDetails, returnValue);
+		
+		return returnValue;
 	}
 
 }

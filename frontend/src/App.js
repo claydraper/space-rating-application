@@ -21,7 +21,7 @@ function App() {
           <Route path="/" exact component={Home} />
           <Route path="/login" exact component={Home} />
           <Route path="/signup" exact component={Home} />
-          <Route path="/spaces/new" component={CreateSpacePage} />
+          <Route path="/spaces/:id" component={CreateSpacePage} />
         </Switch>
       </Router>
     </Wrapper>

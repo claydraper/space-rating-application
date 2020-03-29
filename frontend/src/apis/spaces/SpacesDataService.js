@@ -14,6 +14,14 @@ class SpacesDataService {
         return axios.get(`${API_URL}/spaces`)
     }
 
+    getSpace(id) {
+        return axios.get(`${API_URL}/spaces/${id}`)
+    }
+    
+    updateSpace(id, space) {
+        return axios.put(`${API_URL}/spaces/${id}`, space)
+    }
+
     deleteSpace(externalId) {
         return axios.delete(`${API_URL}/spaces/${externalId}`)
     }
