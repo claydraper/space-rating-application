@@ -7,5 +7,5 @@ import com.spaceRatingApp.entity.SpaceEntity;
 
 @Repository
 public interface SpaceRepository extends CrudRepository<SpaceEntity, Long> {
-
+	SpaceEntity findByExternalId(String externalId);
 }

@@ -63,7 +63,11 @@ const Select = styled.select({
 })
 
 const PhotoInput = styled.input({
-
+    outline: 'none',
+    width: '30%',
+    fontSize: '14px',
+    border: '1px solid #8a8a8a',
+    borderRadius: '3px',
 })
 
 const Submit = styled.button({
@@ -91,7 +95,14 @@ const CreateSpacePage = (props) => {
         state: null,
         description: null,
         photo: null,
+        image: null,
     })
+
+    window.onbeforeunload = () => {
+        props.history.replaceState(false)
+        console.log("onbeforeunload fired")
+        console.log(props.history.state)
+    }
 
     const handleChange = (e) => {
         setSpaceDetails({
@@ -109,7 +120,16 @@ const CreateSpacePage = (props) => {
             photo: spaceDetails.photo
         }).then(() => {
             console.log(spaceDetails)
-            props.history.push("/")
+            props.history.push("/", { successfulSubmit: true })
+            console.log(props.history)
+            
+            let timeout = window.setTimeout(() => {
+                props.history.replace("/", { successfulSubmit: false })
+            }, 2000)
+
+            window.onclick = () => {
+                clearTimeout(timeout)
+            }
         }).catch(error => {
             console.log(error.response)
         })
@@ -197,8 +217,8 @@ const CreateSpacePage = (props) => {
                         />
                     </Container>
                     <Container>
-                        <Label htmlFor="photo" >Photo</Label>
-                        <PhotoInput onChange={(e) => handleChange(e)} type="file" name="photo" value={spaceDetails.photo || ""} />
+                        <Label htmlFor="photo" >Photo URL</Label>
+                        <PhotoInput onChange={(e) => handleChange(e)} type="url" name="photo" value={spaceDetails.photo || ""} />
                     </Container>
                     <Submit type="submit">Submit</Submit>
                 </Form>

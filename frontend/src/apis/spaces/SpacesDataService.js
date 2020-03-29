@@ -10,6 +10,14 @@ class SpacesDataService {
         return axios.post(`${API_URL}/spaces`, space)
     }
 
+    getAllSpaces() {
+        return axios.get(`${API_URL}/spaces`)
+    }
+
+    deleteSpace(externalId) {
+        return axios.delete(`${API_URL}/spaces/${externalId}`)
+    }
+
 }
 
 export default new SpacesDataService();
