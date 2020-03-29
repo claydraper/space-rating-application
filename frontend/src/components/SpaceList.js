@@ -79,12 +79,18 @@ const SpaceList = () => {
         )
     }, [])
 
+    const handleDelete = (e, externalId, index) => {
+        SpacesDataService.deleteSpace(externalId)
+        const tempSpaceDetails = spaceDetails.filter(space =>  space.externalId !== spaceDetails[index].externalId)
+        setSpaceDetails(tempSpaceDetails)
+    }
+
     return (
         <Wrapper>
             <div>{spaceDetails.name}</div>
             <SpaceGrid>
-            {spaceDetails.map(detail => (
-                <SpaceCard key={detail.id} details={detail} />
+            {spaceDetails.map((detail, index) => (
+                <SpaceCard key={detail.externalId} details={detail} index={index} handleDelete={handleDelete}/>
             ))}
             </SpaceGrid>
         </Wrapper>

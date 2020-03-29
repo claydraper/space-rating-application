@@ -1,7 +1,10 @@
 // external dependencies
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+
+// internal dependencies
+import SpacesDataService from '../apis/spaces/SpacesDataService';
 
 // styled components
 const Wrapper = styled.div({
@@ -61,18 +64,15 @@ const StyledLink = styled(Link)({
 const SpaceCard = (props) => {
 
     const handleUpdate = () => {
-        props.history.push(`/users/${props.details.id}`)
-    }
-
-    const handleDelete = () => {
-        return;
+        // props.history.push(`/users/${props.details.id}`)
+        console.log(props.details)
     }
 
     return (
         <Wrapper>
             <IWrap>
-                <Edit className="fas fa-edit"></Edit>
-                <Delete className="fas fa-trash-alt"></Delete>
+                <Edit onClick={handleUpdate} className="fas fa-edit"></Edit>
+                <Delete onClick={(e) => props.handleDelete(e, props.details.externalId, props.index)} className="fas fa-trash-alt"></Delete>
             </IWrap>
             <StyledLink to={`/spaces/${props.details.id}`} >
                 <Img src={props.details.photo} alt={props.details.name} />
