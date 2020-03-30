@@ -38,6 +38,16 @@ const Label = styled.label({
     fontWeight: 600,
 })
 
+const DescContainer = styled.div({
+    display: 'inline-flex',
+})
+
+const CharCounter = styled.p( props => ({
+    fontSize: '12px',
+    margin: '0.5rem 0 0 0.75rem',
+    color: (props.count === 0) ? 'red' : 'black',
+}))
+
 const DescInput = styled.textarea({
     fontSize: '14px',
     outline: 'none',
@@ -95,6 +105,8 @@ const CreateSpacePage = (props) => {
         photo: null,
     })
 
+    const [ counter, setCounter ] = useState(300)
+
     useEffect(() => {
         if (props.match.params.id === "new") {
             return
@@ -117,6 +129,17 @@ const CreateSpacePage = (props) => {
         setSpaceDetails({
             ...spaceDetails, [e.target.name]: e.target.value
         })
+        if(e.target.name === "description") {
+            setCounter(300 - e.target.value.length)
+        }
+    }
+
+    const handleKeyDown = e => {
+        if (e.target.value.length >= 300) {
+            if ((e.keyCode >= 48 && e.keyCode <= 90) || (e.keyCode >= 96 && e.keyCode <= 111) || (e.keyCode >= 186 && e.keyCode <= 222)) {
+                e.preventDefault()
+            }
+        }
     }
 
     const handleSubmit = (e) => {
@@ -138,6 +161,8 @@ const CreateSpacePage = (props) => {
                 window.onclick = () => {
                     clearTimeout(timeout)
                 }
+            }).catch(error => {
+                console.log(error)
             })
         } else {
             SpacesDataService.updateSpace(props.match.params.id, {
@@ -156,6 +181,8 @@ const CreateSpacePage = (props) => {
                 window.onclick = () => {
                     clearTimeout(timeout)
                 }
+            }).catch(error => {
+                console.log(error.response)
             })
         }
     }
@@ -233,12 +260,17 @@ const CreateSpacePage = (props) => {
                         </Select>
                     </Container>
                     <Container>
-                        <Label htmlFor="description" >Description</Label>
+                        <DescContainer>
+                            <Label htmlFor="description" >Description</Label>
+                            <CharCounter count={counter}>{counter !== 1 ? `${counter} characters remaining` : `${counter} character remaining`}</CharCounter>
+                        </DescContainer>
                         <DescInput
-                            onChange={(e) => handleChange(e)}
+                            onChange={e => handleChange(e)}
+                            onKeyDown={e => handleKeyDown(e)}
                             placeholder="Enter between 10 and 300 characters"
                             minlength={10} maxlength={300} rows={4} cols={100}
-                            wrap="hard" name="description" value={spaceDetails.description || ""}
+                            wrap="hard" name="description" 
+                            value={spaceDetails.description || ""}
                         />
                     </Container>
                     <Container>

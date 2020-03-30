@@ -24,7 +24,7 @@ public class SpaceEntity {
 	@Column(nullable=false)
 	private String state;
 	
-	@Column(nullable=false)
+	@Column(nullable=false, length=300)
 	private String description;
 	
 	@Column(nullable=false)

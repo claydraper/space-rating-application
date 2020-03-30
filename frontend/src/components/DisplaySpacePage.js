@@ -10,24 +10,29 @@ const Wrapper = styled.div({
     display: 'flex',
     flexDirection: 'column',
     maxWidth: '100vw',
-    padding: '2rem',
+    padding: '4rem 5rem',
     minHeight: '88%',
 })
 
 const Name = styled.h1({
-
+    fontSize: '26px',
 })
 
 const Location = styled.p({
-
+    fontSize: '20px',
+    margin: '0.25rem 0'
 })
 
 const Description = styled.p({
-
+    fontSize: '18px',
+    margin: '1rem 0',
+    width: '40%'
 })
 
 const Photo = styled.img({
     width: '500px',
+    border: '2px solid black',
+    borderRadius: '3px',
 
 })
 
