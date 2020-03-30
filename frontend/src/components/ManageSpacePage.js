@@ -3,15 +3,13 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 
 // internal dependencies
-import Header from './Header';
-import Footer from './Footer';
 import SpacesDataService from '../apis/spaces/SpacesDataService';
 
 // styled components
 const Wrapper = styled.div({
     display: 'flex',
     flexDirection: 'column',
-    height: '90%',
+    height: '88%',
     maxWidth: '100vw',
     alignItems: 'center',
     fontFamily: 'raleway',
@@ -165,7 +163,6 @@ const CreateSpacePage = (props) => {
 
     return (
         <>
-            <Header />
             <Wrapper>
                 <Form onSubmit={(e) => handleSubmit(e)} >
                     {props.match.params.id !== "new" && <Title>Edit space</Title>}
@@ -251,7 +248,6 @@ const CreateSpacePage = (props) => {
                     <Submit type="submit">Submit</Submit>
                 </Form>
             </Wrapper>
-            <Footer />
         </>
     )
 }

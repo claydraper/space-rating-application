@@ -3,8 +3,6 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 
 // internal dependencies
-import Header from './Header';
-import Footer from './Footer';
 import SpaceList from './SpaceList';
 
 // styled components
@@ -12,6 +10,7 @@ const Wrapper = styled.div({
     display: 'flex',
     flexDirection: 'column',
     maxWidth: '100vw',
+    minHeight: '88%',
 })
 
 const Container = styled.div({
@@ -71,7 +70,6 @@ const Home = (props) => {
 
     return (
         <>
-            <Header />
             <Wrapper>
                 <Container>
                     {props.history.location.state.successfulUpdate && <Success>Space updated successfully</Success>}
@@ -82,7 +80,6 @@ const Home = (props) => {
                 </Container>
                 <SpaceList />
             </Wrapper>
-            <Footer />
         </>
     )
 }

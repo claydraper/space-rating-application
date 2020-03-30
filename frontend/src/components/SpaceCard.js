@@ -66,7 +66,7 @@ const SpaceCard = (props) => {
                 <Edit onClick={(e) => props.handleUpdate(e, props.details.externalId)} className="fas fa-edit"></Edit>
                 <Delete onClick={(e) => props.handleDelete(e, props.details.externalId, props.index)} className="fas fa-trash-alt"></Delete>
             </IWrap>
-            <StyledLink to={`/spaces/${props.details.id}`} >
+            <StyledLink to={`/spaces/view/${props.details.externalId}`} >
                 <Img src={props.details.photo} alt={props.details.name} />
                 <Name>{props.details.name}</Name>
             </StyledLink>

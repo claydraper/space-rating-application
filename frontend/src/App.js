@@ -6,7 +6,10 @@ import styled from 'styled-components';
 // internal dependencies
 import './App.css'
 import Home from './components/HomePage';
-import CreateSpacePage from './components/CreateSpacePage';
+import ManageSpacePage from './components/ManageSpacePage';
+import DisplaySpacePage from './components/DisplaySpacePage';
+import Header from './components/Header';
+import Footer from './components/Footer';
 
 const Wrapper = styled.div({
   height: '100vh',
@@ -17,12 +20,15 @@ function App() {
   return (
     <Wrapper>
       <Router>
+        <Header />
         <Switch>
           <Route path="/" exact component={Home} />
           <Route path="/login" exact component={Home} />
           <Route path="/signup" exact component={Home} />
-          <Route path="/spaces/:id" component={CreateSpacePage} />
+          <Route path="/spaces/:id" exact component={ManageSpacePage} />
+          <Route path="/spaces/view/:id" component={DisplaySpacePage} />
         </Switch>
+        <Footer />
       </Router>
     </Wrapper>
   );
