@@ -29,8 +29,27 @@ public class SpaceEntity {
 	
 	@Column(nullable=false)
 	private String photo;
+	
+	@Column
+	private String webAddress;
+	
+	@Column(nullable=false)
+	private String priceRange;
+	
+	@Column(nullable=false)
+	private String pluginAccess;
+	
+	@Column(nullable=false)
+	private String noiseLevel;
+	
+	@Column(nullable=false)
+	private String seating;
+	
+	@Column(nullable=false)
+	private int starRating;
 
-//	 getters and setters
+	
+	//	 getters and setters
 	public long getId() {
 		return id;
 	}
@@ -85,6 +104,54 @@ public class SpaceEntity {
 
 	public void setPhoto(String photo) {
 		this.photo = photo;
+	}
+	
+	public String getWebAddress() {
+		return webAddress;
+	}
+
+	public void setWebAddress(String webAddress) {
+		this.webAddress = webAddress;
+	}
+
+	public String getPriceRange() {
+		return priceRange;
+	}
+
+	public void setPriceRange(String priceRange) {
+		this.priceRange = priceRange;
+	}
+
+	public String getPluginAccess() {
+		return pluginAccess;
+	}
+
+	public void setPluginAccess(String pluginAccess) {
+		this.pluginAccess = pluginAccess;
+	}
+
+	public String getNoiseLevel() {
+		return noiseLevel;
+	}
+
+	public void setNoiseLevel(String noiseLevel) {
+		this.noiseLevel = noiseLevel;
+	}
+
+	public String getSeating() {
+		return seating;
+	}
+
+	public void setSeating(String seating) {
+		this.seating = seating;
+	}
+
+	public int getStarRating() {
+		return starRating;
+	}
+
+	public void setStarRating(int starRating) {
+		this.starRating = starRating;
 	}
 	
 }

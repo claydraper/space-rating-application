@@ -85,6 +85,12 @@ public class SpaceServiceImpl implements SpaceService {
 		spaceEntity.setName(spaceDto.getName());
 		spaceEntity.setPhoto(spaceDto.getPhoto());
 		spaceEntity.setState(spaceDto.getState());
+		spaceEntity.setPluginAccess(spaceDto.getPluginAccess());
+		spaceEntity.setNoiseLevel(spaceDto.getNoiseLevel());
+		spaceEntity.setPriceRange(spaceDto.getPriceRange());
+		spaceEntity.setSeating(spaceDto.getSeating());
+		spaceEntity.setStarRating(spaceDto.getStarRating());
+		spaceEntity.setWebAddress(spaceDto.getWebAddress());
 		
 		SpaceEntity updatedSpaceDetails = spaceRepository.save(spaceEntity);
 		

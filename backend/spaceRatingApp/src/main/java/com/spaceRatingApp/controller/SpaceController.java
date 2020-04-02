@@ -70,7 +70,20 @@ public class SpaceController {
 	
 	@PutMapping(path="/spaces/{externalId}")
 	public SpaceReturnModel updateUser(@PathVariable String externalId, @RequestBody SpaceRequestModel spaceDetails) {
+	if (spaceDetails.getDescription() == "") {
+		throw new RuntimeException("Description cannot be blank");
+	}
+	if (spaceDetails.getName() == "") {
+		throw new RuntimeException("Name cannot be blank");
+	}
 	
+	if (spaceDetails.getPhoto() == "") {
+		throw new RuntimeException("Must enter valid photo");
+	}
+	if (spaceDetails.getCity() == "") {
+		throw new RuntimeException("City cannot be blank");
+	}
+		
 	SpaceReturnModel returnValue = new SpaceReturnModel();
 	
 	SpaceDto spaceDto = new SpaceDto();

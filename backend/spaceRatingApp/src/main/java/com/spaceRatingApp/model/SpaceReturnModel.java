@@ -8,6 +8,13 @@ public class SpaceReturnModel {
 	private String state;
 	private String description;
 	private String photo;
+	private String webAddress;
+	private String priceRange;
+	private String pluginAccess;
+	private String noiseLevel;
+	private String seating;
+	private int starRating;
+	
 	
 	// getters and setters
 	public String getExternalId() {
@@ -46,5 +53,40 @@ public class SpaceReturnModel {
 	public void setPhoto(String photo) {
 		this.photo = photo;
 	}
-	
+	public String getWebAddress() {
+		return webAddress;
+	}
+	public void setWebAddress(String webAddress) {
+		this.webAddress = webAddress;
+	}
+	public String getPriceRange() {
+		return priceRange;
+	}
+	public void setPriceRange(String priceRange) {
+		this.priceRange = priceRange;
+	}
+	public String getPluginAccess() {
+		return pluginAccess;
+	}
+	public void setPluginAccess(String pluginAccess) {
+		this.pluginAccess = pluginAccess;
+	}
+	public String getNoiseLevel() {
+		return noiseLevel;
+	}
+	public void setNoiseLevel(String noiseLevel) {
+		this.noiseLevel = noiseLevel;
+	}
+	public String getSeating() {
+		return seating;
+	}
+	public void setSeating(String seating) {
+		this.seating = seating;
+	}
+	public int getStarRating() {
+		return starRating;
+	}
+	public void setStarRating(int starRating) {
+		this.starRating = starRating;
+	}
 }
