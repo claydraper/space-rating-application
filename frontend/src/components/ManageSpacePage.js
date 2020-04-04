@@ -81,7 +81,7 @@ const RatingContainer = styled.div({
     margin: '0.75rem 0 0 0',
 })
 
-const SmRatingContainer = styled.div({
+const SmallRatingContainer = styled.div({
     display: 'flex',
     flexDirection: 'column',
     fontSize: '14px',
@@ -427,7 +427,7 @@ const CreateSpacePage = (props) => {
                                 <option value="$$$$">$$$$</option>
                             </PriceSelect>
                         </PriceContainer>
-                        <SmRatingContainer>
+                        <SmallRatingContainer>
                             <Label htmlFor="pluginAccess">Plugin Access</Label>
                             <SliderRatingContainer>
                                 <SliderRating>poor</SliderRating><SliderRating>ok</SliderRating><SliderRating>great</SliderRating>
@@ -441,13 +441,13 @@ const CreateSpacePage = (props) => {
                                 value={spaceDetails.pluginAccess} 
                                 onChange={e => handleChange(e)}
                             />
-                        <datalist id="pluginAccess">
-                            <option value="0"></option>
-                            <option value="1"></option>
-                            <option value="2"></option>
-                        </datalist>
-                        </SmRatingContainer>
-                        <SmRatingContainer>
+                            <datalist id="pluginAccess">
+                                <option value="0"></option>
+                                <option value="1"></option>
+                                <option value="2"></option>
+                            </datalist>
+                        </SmallRatingContainer>
+                        <SmallRatingContainer>
                             <Label htmlFor="noiseLevel">Noise Level</Label>
                             <SliderRatingContainer>
                                 <SliderRating>loud</SliderRating><SliderRating>med</SliderRating><SliderRating>quiet</SliderRating>
@@ -466,8 +466,8 @@ const CreateSpacePage = (props) => {
                                 <option value="1"></option>
                                 <option value="2"></option>
                             </datalist>
-                        </SmRatingContainer>
-                        <SmRatingContainer>
+                        </SmallRatingContainer>
+                        <SmallRatingContainer>
                             <Label htmlFor="seating">Seating</Label>
                             <SliderRatingContainer>
                                 <SliderRating>poor</SliderRating><SliderRating>ok</SliderRating><SliderRating>great</SliderRating>
@@ -486,7 +486,7 @@ const CreateSpacePage = (props) => {
                                 <option value="1"></option>
                                 <option value="2"></option>
                             </datalist>
-                        </SmRatingContainer>
+                        </SmallRatingContainer>
                     </RatingContainer>
                     <Container>
                     <Label htmlFor="rating">Overall Rating</Label>
