@@ -3,9 +3,6 @@ import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
-// internal dependencies
-import SpacesDataService from '../apis/spaces/SpacesDataService';
-
 // styled components
 const Wrapper = styled.div({
     display: 'flex',
@@ -63,18 +60,13 @@ const StyledLink = styled(Link)({
 // component definition
 const SpaceCard = (props) => {
 
-    const handleUpdate = () => {
-        // props.history.push(`/users/${props.details.id}`)
-        console.log(props.details)
-    }
-
     return (
         <Wrapper>
             <IWrap>
-                <Edit onClick={handleUpdate} className="fas fa-edit"></Edit>
+                <Edit onClick={(e) => props.handleUpdate(e, props.details.externalId)} className="fas fa-edit"></Edit>
                 <Delete onClick={(e) => props.handleDelete(e, props.details.externalId, props.index)} className="fas fa-trash-alt"></Delete>
             </IWrap>
-            <StyledLink to={`/spaces/${props.details.id}`} >
+            <StyledLink to={`/spaces/view/${props.details.externalId}`} >
                 <Img src={props.details.photo} alt={props.details.name} />
                 <Name>{props.details.name}</Name>
             </StyledLink>

@@ -60,9 +60,9 @@ const Header = () => {
         <Wrapper>
             <Brand><A href="/"><I className="fas fa-star-half-alt" />Third Rate</A></Brand>
             <Ul>
-                <Li><StyledLink className="link" to="/signup">Sign up</StyledLink></Li>
+                {/* <Li><StyledLink className="link" to="/signup">Sign up</StyledLink></Li>
                 <Li><StyledLink className="link" to="/login">Login</StyledLink></Li>
-                <Li><StyledLink className="link" to="/logout">Logout</StyledLink></Li>
+                <Li><StyledLink className="link" to="/logout">Logout</StyledLink></Li> */}
             </Ul>
         </Wrapper>
     )
