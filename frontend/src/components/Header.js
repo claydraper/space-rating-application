@@ -3,6 +3,9 @@ import React from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import styled from 'styled-components';
 
+// internal dependencies
+import Modal from './Modal';
+
 // styled components
 const Wrapper = styled.div({
     display: 'grid',
@@ -56,13 +59,14 @@ const A = styled.a({
 
 // component definition
 const Header = () => {
+
     return (
         <Wrapper>
             <Brand><A href="/"><I className="fas fa-star-half-alt" />Third Rate</A></Brand>
             <Ul>
-                {/* <Li><StyledLink className="link" to="/signup">Sign up</StyledLink></Li>
+                <Li><Modal>Sign up</Modal></Li>
                 <Li><StyledLink className="link" to="/login">Login</StyledLink></Li>
-                <Li><StyledLink className="link" to="/logout">Logout</StyledLink></Li> */}
+                <Li><StyledLink className="link" to="/logout">Logout</StyledLink></Li>
             </Ul>
         </Wrapper>
     )

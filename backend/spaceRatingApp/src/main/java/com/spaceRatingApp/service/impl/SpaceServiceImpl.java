@@ -7,8 +7,8 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.spaceRatingApp.SpaceRepository;
-import com.spaceRatingApp.entity.SpaceEntity;
+import com.spaceRatingApp.io.entity.SpaceEntity;
+import com.spaceRatingApp.io.repositories.SpaceRepository;
 import com.spaceRatingApp.service.SpaceService;
 import com.spaceRatingApp.shared.SpaceDto;
 import com.spaceRatingApp.shared.Utils;

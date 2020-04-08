@@ -1,4 +1,4 @@
-package com.spaceRatingApp.entity;
+package com.spaceRatingApp.io.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
