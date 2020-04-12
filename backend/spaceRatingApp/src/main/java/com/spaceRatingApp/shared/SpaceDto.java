@@ -14,6 +14,7 @@ public class SpaceDto {
 	private String pluginAccess;
 	private String noiseLevel;
 	private String seating;
+	private String userId;
 	private int starRating;
 	
 	
@@ -95,6 +96,12 @@ public class SpaceDto {
 	}
 	public void setStarRating(int starRating) {
 		this.starRating = starRating;
+	}
+	public String getUserId() {
+		return userId;
+	}
+	public void setUserId(String userId) {
+		this.userId = userId;
 	}
 
 }

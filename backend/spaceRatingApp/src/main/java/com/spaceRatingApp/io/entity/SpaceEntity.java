@@ -46,6 +46,9 @@ public class SpaceEntity {
 	private String seating;
 	
 	@Column(nullable=false)
+	private String userId;
+	
+	@Column(nullable=false)
 	private int starRating;
 
 	
@@ -152,6 +155,14 @@ public class SpaceEntity {
 
 	public void setStarRating(int starRating) {
 		this.starRating = starRating;
+	}
+
+	public String getUserId() {
+		return userId;
+	}
+
+	public void setUserId(String userId) {
+		this.userId = userId;
 	}
 	
 }

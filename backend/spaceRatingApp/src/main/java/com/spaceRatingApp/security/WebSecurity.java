@@ -22,14 +22,31 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 	
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.csrf().disable().authorizeRequests()
-		.antMatchers(HttpMethod.POST, "/users").permitAll()
+		
+
+		http.cors().and().csrf().disable()
+		.authorizeRequests()
+		.antMatchers(HttpMethod.OPTIONS, "/login*").permitAll()
+		.antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+		.antMatchers(HttpMethod.GET, "/users/{userid}/spaces").permitAll()
+		.antMatchers(HttpMethod.POST, SecurityConstants.SIGN_UP_URL).permitAll()
+		.antMatchers(HttpMethod.POST, "/login").permitAll()
+		.antMatchers(HttpMethod.POST, "/spaces/**").permitAll()
 		.antMatchers(HttpMethod.GET, "/spaces").permitAll()
-		.anyRequest().authenticated();
+		.anyRequest().authenticated().and()
+		.addFilter(getAuthenticationFilter());
 	}
 	
 	@Override
 	public void configure(AuthenticationManagerBuilder auth) throws Exception {
 		auth.userDetailsService(userService).passwordEncoder(bCryptPasswordEncoder);
 	}
+	
+	 private AuthenticationFilter getAuthenticationFilter() throws Exception {
+	        final AuthenticationFilter filter = new AuthenticationFilter(authenticationManager());
+	        return filter;
+	        
+	 }
+
+	
 }

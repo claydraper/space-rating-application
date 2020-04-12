@@ -44,7 +44,7 @@ public class SpaceServiceImpl implements SpaceService {
 	public List<SpaceDto> getAllSpaces() {
 		List<SpaceDto> returnValue = new ArrayList<>();
 				
-		List<SpaceEntity> spaces =  (List<SpaceEntity>) spaceRepository.findAll();
+		List<SpaceEntity> spaces = (List<SpaceEntity>) spaceRepository.findAll();
 		
 		for(SpaceEntity spaceEntity : spaces) {
 			SpaceDto spaceDto = new SpaceDto();
@@ -96,6 +96,20 @@ public class SpaceServiceImpl implements SpaceService {
 		
 		BeanUtils.copyProperties(updatedSpaceDetails, returnValue);
 		
+		return returnValue;
+	}
+
+	@Override
+	public List<SpaceDto> getAllSpacesByUserId(String userId) {
+		List<SpaceDto> returnValue = new ArrayList<>();
+		
+		List<SpaceEntity> spaces = (List<SpaceEntity>) spaceRepository.findAllByUserId(userId);
+		
+		for(SpaceEntity spaceEntity : spaces) {
+			SpaceDto spaceDto = new SpaceDto();
+			BeanUtils.copyProperties(spaceEntity, spaceDto);
+			returnValue.add(spaceDto);
+		}
 		return returnValue;
 	}
 

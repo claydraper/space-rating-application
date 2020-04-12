@@ -1,8 +1,7 @@
-package com.spaceRatingApp.model;
+package com.spaceRatingApp.model.Request;
 
-public class SpaceReturnModel {
+public class SpaceRequestModel {
 	
-	private String externalId;
 	private String name;
 	private String city;
 	private String state;
@@ -13,16 +12,11 @@ public class SpaceReturnModel {
 	private String pluginAccess;
 	private String noiseLevel;
 	private String seating;
+	private String userId;
 	private int starRating;
 	
 	
 	// getters and setters
-	public String getExternalId() {
-		return externalId;
-	}
-	public void setExternalId(String externalId) {
-		this.externalId = externalId;
-	}
 	public String getName() {
 		return name;
 	}
@@ -88,5 +82,11 @@ public class SpaceReturnModel {
 	}
 	public void setStarRating(int starRating) {
 		this.starRating = starRating;
+	}
+	public String getUserId() {
+		return userId;
+	}
+	public void setUserId(String userId) {
+		this.userId = userId;
 	}
 }

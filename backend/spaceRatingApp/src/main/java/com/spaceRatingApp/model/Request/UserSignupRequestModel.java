@@ -1,20 +1,14 @@
-package com.spaceRatingApp.model;
+package com.spaceRatingApp.model.Request;
 
-public class UserSignupReturnModel {
+public class UserSignupRequestModel {
 	
-	private String externalId;
 	private String firstName;
 	private String lastName;
 	private String email;
+	private String password;
 	
 	
-	// getters and setters 
-	public String getExternalId() {
-		return externalId;
-	}
-	public void setExternalId(String externalId) {
-		this.externalId = externalId;
-	}
+	// getters and setters
 	public String getFirstName() {
 		return firstName;
 	}
@@ -32,6 +26,12 @@ public class UserSignupReturnModel {
 	}
 	public void setEmail(String email) {
 		this.email = email;
+	}
+	public String getPassword() {
+		return password;
+	}
+	public void setPassword(String password) {
+		this.password = password;
 	}
 
 }

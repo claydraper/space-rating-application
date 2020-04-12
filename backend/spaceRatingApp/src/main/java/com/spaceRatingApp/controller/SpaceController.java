@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.spaceRatingApp.model.SpaceRequestModel;
-import com.spaceRatingApp.model.SpaceReturnModel;
+import com.spaceRatingApp.model.Request.SpaceRequestModel;
+import com.spaceRatingApp.model.response.SpaceReturnModel;
 import com.spaceRatingApp.service.SpaceService;
 import com.spaceRatingApp.shared.SpaceDto;
 
@@ -33,7 +33,7 @@ public class SpaceController {
 		
 		List<SpaceDto> spaces = spaceService.getAllSpaces();
 		
-		for(SpaceDto spaceDto : spaces) {
+		for (SpaceDto spaceDto : spaces) {
 			SpaceReturnModel spaceReturnModel = new SpaceReturnModel();
 			BeanUtils.copyProperties(spaceDto, spaceReturnModel);
 			returnValue.add(spaceReturnModel);
@@ -50,6 +50,21 @@ public class SpaceController {
 		
 		BeanUtils.copyProperties(spaceDto, returnValue);
 		
+		return returnValue;
+	}
+	
+	@GetMapping(path = "/users/{userId}/spaces")
+	public List<SpaceReturnModel> getAllSpacesByUserId(@PathVariable String userId) {
+		
+		List<SpaceReturnModel> returnValue = new ArrayList<>();
+		
+		List<SpaceDto> spaces = spaceService.getAllSpacesByUserId(userId);
+		
+		for (SpaceDto spaceDto: spaces) {
+			SpaceReturnModel spaceReturnModel = new SpaceReturnModel();
+			BeanUtils.copyProperties(spaceDto, spaceReturnModel);
+			returnValue.add(spaceReturnModel);
+		}
 		return returnValue;
 	}
 	

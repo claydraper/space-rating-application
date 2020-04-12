@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.spaceRatingApp.model.UserSignupRequestModel;
-import com.spaceRatingApp.model.UserSignupReturnModel;
+import com.spaceRatingApp.model.Request.UserSignupRequestModel;
+import com.spaceRatingApp.model.response.UserSignupReturnModel;
 import com.spaceRatingApp.service.UserService;
 import com.spaceRatingApp.shared.UserDto;
 
@@ -33,4 +33,5 @@ public class UserController {
 		
 		return returnValue;
 	}
+	
 }
