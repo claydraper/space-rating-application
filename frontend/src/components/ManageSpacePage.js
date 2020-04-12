@@ -276,6 +276,7 @@ const CreateSpacePage = (props) => {
                 pluginAccess: spaceDetails.pluginAccess,
                 noiseLevel: spaceDetails.noiseLevel,
                 seating: spaceDetails.seating,
+                userId: sessionStorage.userID,
                 starRating: starRating
             }).then(() => {
                 props.history.push("/", { successfulSubmit: true })
@@ -311,6 +312,7 @@ const CreateSpacePage = (props) => {
                 pluginAccess: spaceDetails.pluginAccess,
                 noiseLevel: spaceDetails.noiseLevel,
                 seating: spaceDetails.seating,
+                userId: sessionStorage.userID,
                 starRating: starRating
             }).then(() => {
                 props.history.push("/", { successfulUpdate: true })

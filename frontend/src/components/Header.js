@@ -4,7 +4,8 @@ import { Link, withRouter } from 'react-router-dom';
 import styled from 'styled-components';
 
 // internal dependencies
-import Modal from './Modal';
+import SignupModal from './SignupModal';
+import LoginModal from './LoginModal';
 
 // styled components
 const Wrapper = styled.div({
@@ -60,13 +61,18 @@ const A = styled.a({
 // component definition
 const Header = () => {
 
+    const handleLogout = () => {
+        sessionStorage.clear()
+    }
+
     return (
         <Wrapper>
             <Brand><A href="/"><I className="fas fa-star-half-alt" />Third Rate</A></Brand>
             <Ul>
-                <Li><Modal>Sign up</Modal></Li>
-                <Li><StyledLink className="link" to="/login">Login</StyledLink></Li>
-                <Li><StyledLink className="link" to="/logout">Logout</StyledLink></Li>
+                {!sessionStorage.username && <Li><SignupModal>Sign up</SignupModal></Li>}
+                {!sessionStorage.username && <Li><LoginModal>Login</LoginModal></Li>}
+                {sessionStorage.userID && <Li><StyledLink className="link" to={`/users/${sessionStorage.userID}`} >Profile</StyledLink></Li>}
+                {sessionStorage.username && <Li><StyledLink className="link" to="/" onClick={handleLogout}>Logout</StyledLink></Li>}
             </Ul>
         </Wrapper>
     )

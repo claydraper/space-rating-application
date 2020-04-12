@@ -72,12 +72,21 @@ const SpaceList = (props) => {
     // ])
 
     useEffect(() => {
-        SpacesDataService.getAllSpaces()
-        .then(
-            response => {
-                setSpaceDetails(response.data)
-            }
-        )
+        if(document.URL === `http://localhost:3000/users/${sessionStorage.userID}`) {
+            SpacesDataService.getAllUserSpaces(sessionStorage.userID)
+            .then(
+                response => {
+                    setSpaceDetails(response.data)
+                }
+            )
+        } else {
+            SpacesDataService.getAllSpaces()
+            .then(
+                response => {
+                    setSpaceDetails(response.data)
+                }
+            )
+        }
     }, [])
 
     const handleDelete = (e, externalId, index) => {

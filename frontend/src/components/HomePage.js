@@ -23,25 +23,27 @@ const Container = styled.div({
 })
 
 const Intro = styled.p({
-    padding: '0.5rem',
+    padding: '1rem 0.5rem 0.5rem 0.5rem',
+    width: '26rem',
+    textAlign: 'center',
 })
 
-const CreateButton = styled.button({
-    borderRadius: '3px',
-    padding: '0.5rem',
-    backgroundColor: '#2456e0',
-    color: '#FFFFFF',
-    fontSize: '16px',
-    marginTop: '1rem',
-    outline: 'none',
-    ':hover': {
-        cursor: 'pointer',
-    },
-    ':active': {
-        backgroundColor: '#a1bbe6',
-        color: '#2456e0',
-    }
-})
+// const CreateButton = styled.button({
+//     borderRadius: '3px',
+//     padding: '0.5rem',
+//     backgroundColor: '#2456e0',
+//     color: '#FFFFFF',
+//     fontSize: '16px',
+//     marginTop: '1rem',
+//     outline: 'none',
+//     ':hover': {
+//         cursor: 'pointer',
+//     },
+//     ':active': {
+//         backgroundColor: '#a1bbe6',
+//         color: '#2456e0',
+//     }
+// })
 
 const Success = styled.div({
     position: 'absolute',
@@ -64,9 +66,9 @@ const Home = (props) => {
         props.history.location.state = false
     }
 
-    const handleCreateClick = () => {
-        props.history.push('/spaces/new')
-    }
+    // const handleCreateClick = () => {
+    //     props.history.push('/spaces/new')
+    // }
 
     return (
         <>
@@ -75,8 +77,8 @@ const Home = (props) => {
                     {props.history.location.state.successfulUpdate && <Success>Space updated successfully</Success>}
                     {props.history.location.state.successfulSubmit && <Success>Space created successfully</Success>}
                     <h2>Welcome to Third Rate!</h2>
-                    <Intro>Check out the list of spaces below or add a new space.</Intro>
-                    <CreateButton onClick={() => handleCreateClick()}>Create a new space</CreateButton>
+                    <Intro>Check out the complete list of spaces below. Click the space to view more details. You can also login or signup to create and manage spaces.</Intro>
+                    {/* <CreateButton onClick={() => handleCreateClick()}>Create a new space</CreateButton> */}
                 </Container>
                 <SpaceList />
             </Wrapper>
