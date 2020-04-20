@@ -2,6 +2,8 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import StarRatings from 'react-star-ratings';
+import { CircularProgress } from '@material-ui/core';
+import axios from 'axios';
 
 // internal dependencies
 import SpacesDataService from '../apis/spaces/SpacesDataService';
@@ -60,6 +62,18 @@ const GenAlert = styled.div({
     borderRadius: '3px'
 })
 
+const UploadAlert = styled.div({
+    display: 'flex',
+    height: '1.1rem',
+    color: '#a12020',
+    backgroundColor: '#fac5c5',
+    position: 'absolute',
+    top: '7rem',
+    fontSize: '12px',
+    padding: '0.1rem 0.5rem',
+    borderRadius: '3px'
+})
+
 const Asterisk = styled.p({
     fontSize: '40px',
     margin: '-0.35rem 0.25rem 0.25rem 0.25rem'
@@ -71,7 +85,7 @@ const Label = styled.label({
 })
 
 const InlineContainer = styled.div({
-    display: 'inline-flex',
+    display: 'flex',
 })
 
 const RatingContainer = styled.div({
@@ -121,7 +135,7 @@ const Input = styled.input({
 
 const Slider = styled.input({
     fontSize: '14px',
-    width: '8rem'
+    width: '8rem',
 })
 
 const StateSelect = styled.select({
@@ -143,12 +157,69 @@ const PriceContainer = styled.div({
     margin: '0.25rem 0',
 })
 
-const PhotoInput = styled.input({
+const BrowseLabel = styled.label({
+    fontSize: '12px',
+    cursor: 'pointer',
+    border: '1px solid #2499bf',
+    color: '#2499bf',
+    width: '5rem',
+    borderRadius: '5px',
+    textAlign: 'center',
+    height: '1.1rem',
+    lineHeight: '1.1rem',
+    ':active': {
+        backgroundColor: '#2499bf',
+        color: 'white',
+        border: '1px solid white'
+    }
+})
+
+const Browse = styled.input({
     outline: 'none',
-    width: '30%',
-    fontSize: '14px',
-    border: '1px solid #8a8a8a',
-    borderRadius: '3px',
+    width: '0.1px',
+	height: '0.1px',
+	opacity: '0',
+	overflow: 'hidden',
+	position: 'absolute',
+	zIndex: '-1',
+})
+
+const Upload = styled.button({
+    outline: 'none',
+    width: '5rem',
+    height: '1.1rem',
+    borderRadius: '5px',
+    fontSize: '12px',
+    border: '1px solid #81bf67',
+    color: '#81bf67',
+    ':active': {
+        backgroundColor: '#81bf67',
+        color: 'white',
+        border: '1px solid white'
+    }
+})
+
+const ButtonContainer = styled.div({
+    display: 'flex',
+    flexDirection: 'column',
+    height: '2.75rem',
+    justifyContent: 'space-around'
+})
+
+const PhotoStatusText = styled.p({
+    fontSize: '11px',
+    marginLeft: '0.5rem',
+    alignSelf: 'center'
+})
+
+const I = styled.i({
+    fontSize: '11px',
+    marginLeft: '0.25rem',
+})
+
+const StyledCircularProgress = styled(CircularProgress)({
+    alignSelf: 'center',
+    marginLeft: '1rem'
 })
 
 const Submit = styled.button({
@@ -173,7 +244,7 @@ const StyledStarRatings = styled(StarRatings)({
 })
 
 // component definition
-const CreateSpacePage = (props) => {
+const ManageSpacePage = (props) => {
 
     // initial state
     const [spaceDetails, setSpaceDetails] = useState({
@@ -185,17 +256,31 @@ const CreateSpacePage = (props) => {
         pluginAccess: 1,
         noiseLevel: 1,
         seating: 1,
-        description: null,
-        photo: null,
+        description: "",
+        photos: [],
     })
+
+    // stores url address for uploaded photos
+    const [imgbbAddress, setImgbbAddress] = useState([])
+
     const [starRating, setStarRating] = useState(0)
-    const [counter, setCounter] = useState(300)
+
+    // for description field chars remaining
+    const [counter, setCounter] = useState({
+        descriptionCounter: 300,
+        fileCounter: false
+    })
+
     const [errorTimer, setErrorTimer] = useState({
         verifyLength: false,
         errorTimeout: false
     })
     const [errorMessage, setErrorMessage] = useState("")
-    
+
+    // for upload spinner and message
+    const [uploadStatus, setUploadStatus] = useState(false)
+    const [uploadMessage, setUploadMessage] = useState(null)
+
 
     // detects whether user is creating a new space or updating an existing space and populates form accordingly
     useEffect(() => {
@@ -217,11 +302,17 @@ const CreateSpacePage = (props) => {
                         noiseLevel: response.data.noiseLevel,
                         seating: response.data.seating,
                     })
+                    console.log("photos: ", response.data.photos)
                     setStarRating(response.data.starRating)
-                    setCounter(300 - response.data.description.length)
+                    setCounter({descriptionCounter: 300 - response.data.description.length})
                 }
             )
     }, [props.match.params.id])
+
+    // to continually rerender the description counter after initial page load
+    useEffect(() => {
+        setCounter({descriptionCounter: 300 - spaceDetails.description.length})
+    }, [spaceDetails.description.length])
 
 
     // event handlers
@@ -229,11 +320,49 @@ const CreateSpacePage = (props) => {
         setSpaceDetails({
             ...spaceDetails, [e.target.name]: e.target.value
         })
-        if (e.target.name === "description") {
-            setCounter(300 - e.target.value.length)
-        }
+        // if (e.target.name === "description") {
+        //     setCounter({...counter, descriptionCounter: 300 - spaceDetails.description.length})
+        // }
     }
 
+    const handleImageChange = e => {
+        setSpaceDetails({ ...spaceDetails, photos: e.target.files })
+        setCounter({fileCounter: e.target.files.length})
+        console.log(counter.fileCounter)
+    };
+
+    // photos upload to imgbb api and return image address
+    const handleUpload = () => {
+            const photoArray = [...spaceDetails.photos]
+            setUploadStatus(true)
+            photoArray.forEach((photo, i) => {
+                let form_data = new FormData();
+                form_data.append('image', spaceDetails.photos[i]);
+                const url = 'https://api.imgbb.com/1/upload?key=58f16ec516b4dda1a0487000e8f02b5c';
+                axios.post(url, form_data, {
+                    headers: {
+                        'content-type': 'multipart/form-data'
+                    }
+                })
+                .then(response => {
+                    setImgbbAddress([...imgbbAddress], imgbbAddress.push(response.data.data.url))
+                    console.log(`imgbbaddress ${i}`, imgbbAddress)
+                    if ( i === (photoArray.length - 1)) {
+                        setTimeout( () => { // workaround to allow time for api response before setting state
+                            setImgbbAddress([...imgbbAddress])
+                            console.log("final state: :", imgbbAddress)
+                            setUploadStatus(false)
+                            setUploadMessage(null)
+                        }, 1000)
+                    }
+                })
+                .catch(error => {
+                    console.log(`imgbb error: ${i}`, error.response)
+                })
+            })
+    }
+
+    // prevents typing beyond character limit in description text area
     const handleKeyDown = e => {
         if (e.target.value.length >= 300) {
             if ((e.keyCode >= 48 && e.keyCode <= 90) || (e.keyCode >= 96 && e.keyCode <= 111) || (e.keyCode >= 186 && e.keyCode <= 222)) {
@@ -242,10 +371,16 @@ const CreateSpacePage = (props) => {
         }
     }
 
-    // const handlePaste = e => { 
-    //     const pasteValue = e.clipboardData.getData('text/plain').slice(0, 300 - e.target.value.length)
-    // }
+    const handlePaste = e => { 
+        e.preventDefault()
+        const pasteValue = e.clipboardData.getData('text/plain').slice(0, 300 - e.target.value.length)
+        console.log(pasteValue)
+        const newDescription = spaceDetails.description + pasteValue
+        setSpaceDetails({...spaceDetails, description: newDescription})
+        setCounter({...counter, descriptionCounter: 300 - newDescription.length})
+    }
 
+    // sets the star rating
     const changeRating = (newRating, name) => {
         setStarRating(newRating)
     }
@@ -253,24 +388,32 @@ const CreateSpacePage = (props) => {
     const handleSubmit = (e) => {
         e.preventDefault();
         if (spaceDetails.description && spaceDetails.description.length < 10) {
-            setErrorTimer({verifyLength: true})
+            setErrorTimer({ verifyLength: true })
             let timeout = window.setTimeout(() => {
-                setErrorTimer({verifyLength: false})
+                setErrorTimer({ verifyLength: false })
             }, 3000)
 
             window.onclick = () => {
                 clearTimeout(timeout)
-                setErrorTimer({verifyLength: false})
+                setErrorTimer({ verifyLength: false })
             }
             return
         }
+
+        // prevent submit if photos still uploading
+        if (uploadStatus) {
+            setUploadMessage("Please wait until photos are finished uploading before submitting")
+            return
+        }
+
+        // handles update of new spaces
         if (props.match.params.id === "new") {
             SpacesDataService.createSpace({
                 name: spaceDetails.name,
                 city: spaceDetails.city,
                 state: spaceDetails.state,
                 description: spaceDetails.description,
-                photo: spaceDetails.photo,
+                photos: imgbbAddress,
                 webAddress: spaceDetails.webAddress,
                 priceRange: spaceDetails.priceRange,
                 pluginAccess: spaceDetails.pluginAccess,
@@ -279,34 +422,35 @@ const CreateSpacePage = (props) => {
                 userId: sessionStorage.userID,
                 starRating: starRating
             }).then(() => {
-                props.history.push("/", { successfulSubmit: true })
+                props.history.push(`/users/${sessionStorage.userID}`, { successfulSubmit: true })
 
                 let timeout = window.setTimeout(() => {
-                    props.history.replace("/", { successfulSubmit: false })
+                    props.history.replace(`/users/${sessionStorage.userID}`, { successfulSubmit: false })
                 }, 2000)
 
                 window.onclick = () => {
                     clearTimeout(timeout)
                 }
             }).catch(error => {
-                setErrorTimer({errorTimeout: true})
+                setErrorTimer({ errorTimeout: true })
 
                 let timeout = window.setTimeout(() => {
-                    setErrorTimer({errorTimeout: false})
+                    setErrorTimer({ errorTimeout: false })
                 }, 3000)
-    
+
                 window.onclick = () => {
                     clearTimeout(timeout)
-                    setErrorTimer({errorTimeout: false})
+                    setErrorTimer({ errorTimeout: false })
                 }
             })
+        // handles update of existing spaces
         } else {
             SpacesDataService.updateSpace(props.match.params.id, {
                 name: spaceDetails.name,
                 city: spaceDetails.city,
                 state: spaceDetails.state,
                 description: spaceDetails.description,
-                photo: spaceDetails.photo,
+                photos: imgbbAddress,
                 webAddress: spaceDetails.webAddress,
                 priceRange: spaceDetails.priceRange,
                 pluginAccess: spaceDetails.pluginAccess,
@@ -315,10 +459,9 @@ const CreateSpacePage = (props) => {
                 userId: sessionStorage.userID,
                 starRating: starRating
             }).then(() => {
-                props.history.push("/", { successfulUpdate: true })
-                console.log(spaceDetails)
+                props.history.push(`/users/${sessionStorage.userID}`, { successfulUpdate: true })
                 let timeout = window.setTimeout(() => {
-                    props.history.replace("/", { successfulUpdate: false })
+                    props.history.replace(`/users/${sessionStorage.userID}`, { successfulUpdate: false })
                 }, 2000)
 
                 window.onclick = () => {
@@ -326,20 +469,19 @@ const CreateSpacePage = (props) => {
                 }
             }).catch(error => {
                 setErrorMessage(error.response.data.message)
-                setErrorTimer({errorTimeout: true})
+                setErrorTimer({ errorTimeout: true })
 
                 let timeout = window.setTimeout(() => {
-                    setErrorTimer({errorTimeout: false})
+                    setErrorTimer({ errorTimeout: false })
                 }, 3000)
-    
+
                 window.onclick = () => {
                     clearTimeout(timeout)
-                    setErrorTimer({errorTimeout: false})
+                    setErrorTimer({ errorTimeout: false })
                 }
             })
         }
     }
-
 
     return (
         <>
@@ -347,6 +489,7 @@ const CreateSpacePage = (props) => {
                 <Form onSubmit={(e) => handleSubmit(e)} >
                     {props.match.params.id !== "new" && <Title>Edit space</Title>}
                     {props.match.params.id === "new" && <Title>Create a new space</Title>}
+                    {uploadStatus && uploadMessage && <UploadAlert>{uploadMessage}</UploadAlert>}
                     {errorTimer.errorTimeout && <GenAlert >Fields marked with <Asterisk>*</Asterisk> are required</GenAlert>}
                     <Container>
                         <Label htmlFor="name">Name*</Label>
@@ -415,7 +558,7 @@ const CreateSpacePage = (props) => {
                     </Container>
                     <Container>
                         <Label htmlFor="webAddress">Web Address</Label>
-                        <Input type="url" name="webAddress" onChange={e => handleChange(e)} value={spaceDetails.webAddress || ""}/>
+                        <Input type="url" name="webAddress" onChange={e => handleChange(e)} value={spaceDetails.webAddress || ""} />
                     </Container>
                     <RatingContainer>
                         <PriceContainer>
@@ -434,13 +577,13 @@ const CreateSpacePage = (props) => {
                             <SliderRatingContainer>
                                 <SliderRating>poor</SliderRating><SliderRating>ok</SliderRating><SliderRating>great</SliderRating>
                             </SliderRatingContainer>
-                            <Slider type="range" 
-                                list="pluginAccess" 
+                            <Slider type="range"
+                                list="pluginAccess"
                                 name="pluginAccess"
                                 min={0}
                                 max={2}
                                 step={1}
-                                value={spaceDetails.pluginAccess} 
+                                value={spaceDetails.pluginAccess}
                                 onChange={e => handleChange(e)}
                             />
                             <datalist id="pluginAccess">
@@ -454,13 +597,13 @@ const CreateSpacePage = (props) => {
                             <SliderRatingContainer>
                                 <SliderRating>loud</SliderRating><SliderRating>med</SliderRating><SliderRating>quiet</SliderRating>
                             </SliderRatingContainer>
-                            <Slider type="range" 
-                                list="noiseLevel" 
+                            <Slider type="range"
+                                list="noiseLevel"
                                 name="noiseLevel"
                                 min={0}
                                 max={2}
                                 step={1}
-                                value={spaceDetails.noiseLevel} 
+                                value={spaceDetails.noiseLevel}
                                 onChange={e => handleChange(e)}
                             />
                             <datalist id="noiseLevel">
@@ -474,13 +617,13 @@ const CreateSpacePage = (props) => {
                             <SliderRatingContainer>
                                 <SliderRating>poor</SliderRating><SliderRating>ok</SliderRating><SliderRating>great</SliderRating>
                             </SliderRatingContainer>
-                            <Slider type="range" 
-                                list="seating" 
+                            <Slider type="range"
+                                list="seating"
                                 name="seating"
                                 min={0}
                                 max={2}
                                 step={1}
-                                value={spaceDetails.seating} 
+                                value={spaceDetails.seating}
                                 onChange={e => handleChange(e)}
                             />
                             <datalist id="seating">
@@ -491,27 +634,28 @@ const CreateSpacePage = (props) => {
                         </SmallRatingContainer>
                     </RatingContainer>
                     <Container>
-                    <Label htmlFor="rating">Overall Rating</Label>
-                    <StyledStarRatings
-                        rating={starRating}
-                        starRatedColor="#f7bf23"
-                        starHoverColor="#f7bf23"
-                        starDimension="1.5rem"
-                        starSpacing="0.25rem"
-                        changeRating={changeRating}
-                        numberOfStars={5}
-                        name='rating'
-                    />
+                        <Label htmlFor="rating">Overall Rating</Label>
+                        <StyledStarRatings
+                            rating={starRating}
+                            starRatedColor="#f7bf23"
+                            starHoverColor="#f7bf23"
+                            starDimension="1.5rem"
+                            starSpacing="0.25rem"
+                            changeRating={changeRating}
+                            numberOfStars={5}
+                            name='rating'
+                        />
                     </Container>
                     {errorTimer.verifyLength && <DescAlert id="descAlert">The description must contain at least 10 characters</DescAlert>}
                     <Container>
                         <InlineContainer>
                             <Label htmlFor="description" >Description*</Label>
-                            <CharCounter count={counter}>{counter !== 1 ? `${counter} characters remaining` : `${counter} character remaining`}</CharCounter>
+                            <CharCounter count={counter.descriptionCounter}>{counter.descriptionCounter !== 1 ? `${counter.descriptionCounter} characters remaining` : `${counter.descriptionCounter} character remaining`}</CharCounter>
                         </InlineContainer>
                         <DescInput
                             onChange={e => handleChange(e)}
                             onKeyDown={e => handleKeyDown(e)}
+                            onPaste={e => handlePaste(e)}
                             placeholder="Enter between 10 and 300 characters"
                             minlength={10} maxlength={300} rows={4} cols={100}
                             wrap="hard" name="description"
@@ -519,8 +663,18 @@ const CreateSpacePage = (props) => {
                         />
                     </Container>
                     <Container>
-                        <Label htmlFor="photo" >Photo URL*</Label>
-                        <PhotoInput onChange={(e) => handleChange(e)} type="url" name="photo" value={spaceDetails.photo || ""} />
+                    <Label htmlFor="photoContainer" >Photos</Label>
+                        <ButtonContainer name="photoContainer">
+                            <InlineContainer>
+                                <BrowseLabel htmlFor="photos">Browse<I className="fas fa-search"></I></BrowseLabel>
+                                <Browse multiple id="photos" name="photos" type="file" onChange={(e) => handleImageChange(e)} />
+                                {counter.fileCounter && <PhotoStatusText>{counter.fileCounter !== 1 ? `${counter.fileCounter} files selected` : `${counter.fileCounter} file selected`}</PhotoStatusText>}
+                            </InlineContainer>
+                            <InlineContainer>
+                                <Upload type="button" onClick={handleUpload}>Upload<I className="fas fa-cloud-upload-alt"></I></Upload>
+                                {uploadStatus && <StyledCircularProgress color="primary" size="0.75rem" />}
+                            </InlineContainer>
+                        </ButtonContainer>
                     </Container>
                     <Submit type="submit">Submit</Submit>
                 </Form>
@@ -529,4 +683,4 @@ const CreateSpacePage = (props) => {
     )
 }
 
-export default CreateSpacePage;
+export default ManageSpacePage;

@@ -1,10 +1,10 @@
 // external dependencies
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import SpacesDataService from '../apis/spaces/SpacesDataService';
 
 // internal dependencies
 import SpaceList from './SpaceList';
+import SpacesDataService from '../apis/spaces/SpacesDataService';
 
 
 // styled components
@@ -21,7 +21,7 @@ const Container = styled.div({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#f2f0f0',
-    padding: '5rem',
+    padding: '4rem 0',
 })
 
 const Intro = styled.p({
@@ -47,25 +47,49 @@ const CreateButton = styled.button({
     }
 })
 
+const Success = styled.div({
+    position: 'absolute',
+    top: '4.65rem',
+    display: 'flex',
+    height: '40px',
+    width: '50%',
+    justifyContent: 'center',
+    alignItems: 'center',
+    color: '#286620',
+    backgroundColor: '#adf7a3',
+    borderRadius: '8px',
+
+})
+
 // component definition
 const DisplayUserPage = (props) => {
 
-    const [spaceDetails, setSpaceDetails] = useState([])
+    if(props.history.location.state === undefined) {
+        props.history.location.state = false
+    }
 
-    useEffect(() => {
-        SpacesDataService.getAllUserSpaces(sessionStorage.userID)
-        .then(
-            response => {
-                console.log(response)
-                setSpaceDetails(response.data)
-            }
-        )
-        .catch(
-            error => {
-                console.log("error: ", error)
-            }
-        )
-    }, [])
+    // const [spaceDetails, setSpaceDetails] = useState([])
+
+    // const parseEmail = email => {
+    //     let firstLetter = email.charAt(0).toUpperCase()
+    //     let partialUsername = email.substring(1, email.indexOf("@"))
+    //     return firstLetter + partialUsername
+    // }
+
+    // useEffect(() => {
+    //     SpacesDataService.getAllUserSpaces(sessionStorage.userID)
+    //     .then(
+    //         response => {
+    //             console.log(response)
+    //             setSpaceDetails(response.data)
+    //         }
+    //     )
+    //     .catch(
+    //         error => {
+    //             console.log("error: ", error)
+    //         }
+    //     )
+    // }, [])
 
     const handleCreateClick = () => {
         props.history.push('/spaces/new')
@@ -74,7 +98,9 @@ const DisplayUserPage = (props) => {
     return (
         <Wrapper>
             <Container>
-                <h2>Hello, {sessionStorage.username}</h2>
+                {props.history.location.state.successfulUpdate && <Success>Space updated successfully</Success>}
+                {props.history.location.state.successfulSubmit && <Success>Space created successfully</Success>}
+                <h2>Hello, {sessionStorage.FirstName}</h2>
                 <Intro>Here you can create a new space, or you can view, update, or delete your existing spaces below.</Intro>
                 <CreateButton onClick={() => handleCreateClick()}>Create a new space</CreateButton>
             </Container>

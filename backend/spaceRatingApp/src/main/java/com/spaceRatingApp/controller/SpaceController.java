@@ -92,7 +92,7 @@ public class SpaceController {
 		throw new RuntimeException("Name cannot be blank");
 	}
 	
-	if (spaceDetails.getPhoto() == "") {
+	if (spaceDetails.getPhotos() == null) {
 		throw new RuntimeException("Must enter valid photo");
 	}
 	if (spaceDetails.getCity() == "") {

@@ -65,11 +65,64 @@ const Description = styled.p({
     width: '40%'
 })
 
+const PhotosContainer = styled.div({
+    display: "flex",
+})
+
+const Carousel = styled.div({
+    display: 'flex',
+    alignItems: 'center',
+    margin: '0 0.75rem',
+    height: '380px'
+})
+
 const Photo = styled.img({
     width: '500px',
     border: '2px solid black',
     borderRadius: '3px',
+    minHeight: '360px',
+    maxHeight: '380px',
+})
 
+const LeftArrow = styled.i({
+    fontSize: '28px',
+    marginRight: '-2.5rem',
+    zIndex: 1,
+    color: '#a1beed',
+    textShadow: '1px 1px 8px #3b3b3a',
+    opacity: '60%',
+    ':hover': {
+        opacity: '100%',
+        cursor: 'pointer'
+    }
+})
+
+const RightArrow = styled.i({
+    fontSize: '28px',
+    marginLeft: '-2.5rem',
+    zIndex: 1,
+    color: '#a1beed',
+    textShadow: '1px 1px 8px #3b3b3a',
+    opacity: '60%',
+    ':hover': {
+        opacity: '100%',
+        cursor: 'pointer'
+    }
+})
+
+const PhotoAlbum = styled.div({
+    display: 'grid',
+    alignSelf: 'center',
+    gridTemplateColumns: 'repeat(4, 250px)',
+    gridTemplateRows: 'repeat(2, 160px)',
+    alignItems: 'space-between',
+    marginLeft: '1rem',
+})
+
+const SmallPhoto = styled.img({
+    height: '160px',
+    width: '250px',
+    border: '1px solid black'
 })
 
 const H4 = styled.h4({
@@ -100,16 +153,25 @@ const SliderRating = styled.p({
 const DisplaySpacePage = (props) => {
 
     const [ spaceDetails, setSpaceDetails ] = useState({})
+    const [ displayedPhoto, setDisplayedPhoto ] = useState(0)
 
     useEffect(() => {
         SpacesDataService.getSpace(props.match.params.id)
         .then(
             response => {
                 setSpaceDetails(response.data)
-                console.log(response.data)
+                console.log("spacedetails: ", response.data)
             }
         )
     }, [])
+
+    const leftClick = e => {
+        setDisplayedPhoto(displayedPhoto !== 0 ? displayedPhoto - 1 : spaceDetails.photos.length - 1)
+    }
+
+    const rightClick = e => {
+        setDisplayedPhoto(displayedPhoto < spaceDetails.photos.length - 1 ? displayedPhoto + 1 : 0)
+    }
 
     return (
         <Wrapper>
@@ -129,7 +191,18 @@ const DisplaySpacePage = (props) => {
                     name='rating'
                 />
             </HeaderContainer>
-            <Photo src={spaceDetails.photo} alt={spaceDetails.name} />
+            <PhotosContainer>
+                <Carousel>
+                    <LeftArrow className="fas fa-arrow-alt-circle-left" onClick={e => leftClick(e)}></LeftArrow>
+                    <Photo src={spaceDetails.photos ? spaceDetails.photos[displayedPhoto] :  ""} alt={spaceDetails.name} />
+                    <RightArrow className="fas fa-arrow-alt-circle-right" onClick={e => rightClick(e)}></RightArrow>
+                </Carousel>
+                <PhotoAlbum>
+                    {spaceDetails.photos ? spaceDetails.photos.filter( (photo, i) => (i > 0 && i < 9)).map( (photo, i) => 
+                        <SmallPhoto src={spaceDetails.photos[i + 1]} alt={spaceDetails.photos[i + 1]} key={i + 1}/>
+                    ) : ""}
+                </PhotoAlbum>
+            </PhotosContainer>
             <Description>{spaceDetails.description}</Description>
             <H4>Ratings</H4>
             <Container>
@@ -142,10 +215,11 @@ const DisplaySpacePage = (props) => {
                     <Slider type="range" 
                         list="pluginAccess" 
                         name="pluginAccess"
+                        readOnly
                         min={0}
                         max={2}
                         step={1}
-                        value={spaceDetails.pluginAccess} 
+                        value={spaceDetails.pluginAccess || ""} 
                     />
                     <datalist id="pluginAccess">
                         <option value="0"></option>
@@ -161,10 +235,11 @@ const DisplaySpacePage = (props) => {
                     <Slider type="range" 
                         list="noiseLevel" 
                         name="noiseLevel"
+                        readOnly
                         min={0}
                         max={2}
                         step={1}
-                        value={spaceDetails.noiseLevel} 
+                        value={spaceDetails.noiseLevel || ""} 
                     />
                     <datalist id="noiseLevel">
                         <option value="0"></option>
@@ -180,10 +255,11 @@ const DisplaySpacePage = (props) => {
                     <Slider type="range" 
                         list="seating" 
                         name="seating"
+                        readOnly
                         min={0}
                         max={2}
                         step={1}
-                        value={spaceDetails.seating} 
+                        value={spaceDetails.seating || ""} 
                     />
                     <datalist id="seating">
                         <option value="0"></option>

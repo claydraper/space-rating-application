@@ -5,6 +5,7 @@ import styled from 'styled-components';
 
 // internal dependencies
 import './App.css'
+import AuthenticatedRoute from './components/AuthenticatedRoute';
 import Home from './components/HomePage';
 import ManageSpacePage from './components/ManageSpacePage';
 import DisplaySpacePage from './components/DisplaySpacePage';
@@ -27,9 +28,9 @@ function App() {
           <Route path="/" exact component={Home} />
           <Route path="/login" exact component={Home} />
           <Route path="/signup" exact component={Home} />
-          <Route path="/spaces/:id" exact component={ManageSpacePage} />
+          <AuthenticatedRoute path="/spaces/:id" exact component={ManageSpacePage} />
           <Route path="/spaces/view/:id" component={DisplaySpacePage} />
-          <Route path="/users/:id" component={DisplayUserPage} />
+          <AuthenticatedRoute path="/users/:id" component={DisplayUserPage} />
           <Route component={ErrorPage} />
         </Switch>
         <Footer />

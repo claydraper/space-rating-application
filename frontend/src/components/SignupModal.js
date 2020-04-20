@@ -6,6 +6,7 @@ import styled from 'styled-components';
 
 // internal dependencies
 import UsersDataService from '../apis/users/UsersDataService';
+import AuthenticationService from './AuthenticationService';
 
 // styled components
 const StyledPopup = styled(Popup)(props => ({
@@ -25,6 +26,29 @@ const Text = styled.p({
     ':hover': {
         opacity: '100%',
         cursor: 'pointer',
+    },
+
+    '::after': {
+        content: '""',
+        height: '2px',
+        width: '100%',
+        background: 'white',
+        display: 'block',
+        marginTop: '4px',
+        visibility: 'hidden',
+        transform: 'scaleX(0)',
+        transition: '0.3s',
+    },
+
+    '&:hover::after': {
+        content: '""',
+        height: '2px',
+        width: '100%',
+        background: 'white',
+        display: 'block',
+        marginTop: '4px',
+        transform: 'scaleX(1)',
+        visibility: 'visible',
     },
 })
 
@@ -86,6 +110,17 @@ const Submit = styled.button({
     }
 })
 
+const GenAlert = styled.div({
+    display: 'flex',
+    height: '1.1rem',
+    color: '#a12020',
+    backgroundColor: '#fac5c5',
+    top: '7rem',
+    fontSize: '12px',
+    padding: '0.1rem 0.5rem',
+    borderRadius: '3px'
+})
+
 // component definition
 const SignupModal = (props) => {
 
@@ -96,6 +131,7 @@ const SignupModal = (props) => {
         password: null
     })
     const [showPopup, setShowPopup] = useState(true)
+    const [errorMessage, setErrorMessage] = useState()
 
     const handleChange = e => {
         setUserDetails({
@@ -112,9 +148,20 @@ const SignupModal = (props) => {
             password: userDetails.password
         }).then(() => {
             setShowPopup(false)
-            props.history.push("/dinosaurs")
+            props.history.push("/")
+            setTimeout(() => {
+                UsersDataService.userLogin({
+                    email: userDetails.email,
+                    password: userDetails.password
+                })
+                .then(response => {
+                AuthenticationService.registerLogin(response.headers.authorization, response.headers.username, response.headers.userid, response.headers.firstname)
+                props.history.push(`/users/${response.headers.userid}`)
+                })
+            }, 0)
         }).catch(error => {
-            console.log(error)
+            console.log(error.response)
+            setErrorMessage("There is an existing account for that email address")
         })
     }
 
@@ -131,6 +178,7 @@ const SignupModal = (props) => {
             <Wrapper>
                 <Form onSubmit={e => handleSubmit(e)}>
                     <Title>Sign up</Title>
+                    {errorMessage && <GenAlert>{errorMessage}</GenAlert>}
                     <Container>
                         <Label htmlFor="firstName">First name</Label>
                         <Input name="firstName" type="text" value={userDetails.firstName || ""} onChange={e => handleChange(e)} />

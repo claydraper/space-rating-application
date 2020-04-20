@@ -1,9 +1,14 @@
 package com.spaceRatingApp.io.entity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+
 
 @Entity(name="spaces")
 public class SpaceEntity {
@@ -28,7 +33,8 @@ public class SpaceEntity {
 	private String description;
 	
 	@Column(nullable=false)
-	private String photo;
+	@ElementCollection
+	private List<String> photos = new ArrayList<String>();
 	
 	@Column
 	private String webAddress;
@@ -101,12 +107,12 @@ public class SpaceEntity {
 		this.description = description;
 	}
 
-	public String getPhoto() {
-		return photo;
+	public List<String> getPhotos() {
+		return photos;
 	}
 
-	public void setPhoto(String photo) {
-		this.photo = photo;
+	public void setPhotos(List<String> photos) {
+		this.photos = photos;
 	}
 	
 	public String getWebAddress() {

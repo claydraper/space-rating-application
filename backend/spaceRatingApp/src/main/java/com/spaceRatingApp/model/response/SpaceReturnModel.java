@@ -1,5 +1,8 @@
 package com.spaceRatingApp.model.response;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class SpaceReturnModel {
 	
 	private String externalId;
@@ -7,7 +10,7 @@ public class SpaceReturnModel {
 	private String city;
 	private String state;
 	private String description;
-	private String photo;
+	private List<String> photos = new ArrayList<String>();
 	private String webAddress;
 	private String priceRange;
 	private String pluginAccess;
@@ -48,11 +51,11 @@ public class SpaceReturnModel {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	public String getPhoto() {
-		return photo;
+	public List<String> getPhotos() {
+		return photos;
 	}
-	public void setPhoto(String photo) {
-		this.photo = photo;
+	public void setPhotos(List<String> photos) {
+		this.photos = photos;
 	}
 	public String getWebAddress() {
 		return webAddress;

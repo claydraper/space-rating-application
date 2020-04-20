@@ -62,10 +62,11 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 		
 		UserService userService = (UserService) SpringApplicationContext.getBean("userServiceImpl");
 		UserDto userDto = userService.getUser(userName);
-		res.addHeader("Access-Control-Expose-Headers", "Authorization, UserID, Username");
+		res.addHeader("Access-Control-Expose-Headers", "Authorization, UserID, Username, FirstName");
 		res.addHeader(SecurityConstants.HEADER_STRING, SecurityConstants.TOKEN_PREFIX + token);
 		res.addHeader("UserID", userDto.getUserId());
 		res.addHeader("Username", userName);
+		res.addHeader("FirstName", userDto.getFirstName());
 	}
 
 }

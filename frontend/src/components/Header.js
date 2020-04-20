@@ -20,7 +20,7 @@ const Wrapper = styled.div({
 })
 
 const Brand = styled.div({
-    padding: '0 5px',
+    padding: '0 1.5rem',
     fontSize: '22px'
 })
 
@@ -39,6 +39,7 @@ const Li = styled.li({
 })
 
 const StyledLink = styled(Link)({
+    display: 'block',
     padding: '0 10px',
     opacity: '40%',
     color: '#FFFFFF',
@@ -46,6 +47,29 @@ const StyledLink = styled(Link)({
         opacity: '100%'
     },
     textDecoration: 'none',
+
+    '::after': {
+        content: '""',
+        height: '2px',
+        width: '100%',
+        background: 'white',
+        display: 'block',
+        marginTop: '4px',
+        visibility: 'hidden',
+        transform: 'scaleX(0)',
+        transition: '0.3s',
+    },
+
+    '&:hover::after': {
+        content: '""',
+        height: '2px',
+        width: '100%',
+        background: 'white',
+        display: 'block',
+        marginTop: '4px',
+        transform: 'scaleX(1)',
+        visibility: 'visible',
+    },
 })
 
 const I = styled.i({
@@ -59,10 +83,11 @@ const A = styled.a({
 })
 
 // component definition
-const Header = () => {
+const Header = (props) => {
 
     const handleLogout = () => {
         sessionStorage.clear()
+        props.history.push("/")
     }
 
     return (
@@ -71,7 +96,7 @@ const Header = () => {
             <Ul>
                 {!sessionStorage.username && <Li><SignupModal>Sign up</SignupModal></Li>}
                 {!sessionStorage.username && <Li><LoginModal>Login</LoginModal></Li>}
-                {sessionStorage.userID && <Li><StyledLink className="link" to={`/users/${sessionStorage.userID}`} >Profile</StyledLink></Li>}
+                {sessionStorage.userID && <Li><StyledLink className="link" to={`/users/${sessionStorage.userID}`} >My profile</StyledLink></Li>}
                 {sessionStorage.username && <Li><StyledLink className="link" to="/" onClick={handleLogout}>Logout</StyledLink></Li>}
             </Ul>
         </Wrapper>

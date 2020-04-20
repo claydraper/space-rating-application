@@ -32,7 +32,10 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 		.antMatchers(HttpMethod.POST, SecurityConstants.SIGN_UP_URL).permitAll()
 		.antMatchers(HttpMethod.POST, "/login").permitAll()
 		.antMatchers(HttpMethod.POST, "/spaces/**").permitAll()
+		.antMatchers(HttpMethod.GET, "/spaces/{externalId}").permitAll()
 		.antMatchers(HttpMethod.GET, "/spaces").permitAll()
+		.antMatchers(HttpMethod.DELETE, "/spaces/{externalId}").permitAll()
+		.antMatchers(HttpMethod.PUT, "/spaces/{externalId}").permitAll()
 		.anyRequest().authenticated().and()
 		.addFilter(getAuthenticationFilter());
 	}

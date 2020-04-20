@@ -27,6 +27,29 @@ const Text = styled.p({
         opacity: '100%',
         cursor: 'pointer',
     },
+
+    '::after': {
+        content: '""',
+        height: '2px',
+        width: '100%',
+        background: 'white',
+        display: 'block',
+        marginTop: '4px',
+        visibility: 'hidden',
+        transform: 'scaleX(0)',
+        transition: '0.3s',
+    },
+
+    '&:hover::after': {
+        content: '""',
+        height: '2px',
+        width: '100%',
+        background: 'white',
+        display: 'block',
+        marginTop: '4px',
+        transform: 'scaleX(1)',
+        visibility: 'visible',
+    },
 })
 
 const Wrapper = styled.div({
@@ -65,6 +88,17 @@ const Input = styled.input({
     paddingLeft: '0.25rem'
 })
 
+const GenAlert = styled.div({
+    display: 'flex',
+    height: '1.1rem',
+    color: '#a12020',
+    backgroundColor: '#fac5c5',
+    top: '7rem',
+    fontSize: '12px',
+    padding: '0.1rem 0.5rem',
+    borderRadius: '3px'
+})
+
 const Label = styled.label({
     fontSize: '18px',
     fontWeight: '600',
@@ -95,6 +129,7 @@ const LoginModal = (props) => {
         password: null
     })
     const [showPopup, setShowPopup] = useState(true)
+    const [errorMessage, setErrorMessage] = useState()
 
     const handleChange = e => {
         setUserDetails({
@@ -109,11 +144,11 @@ const LoginModal = (props) => {
             password: userDetails.password
         }).then( response => {
             setShowPopup(false)
-            console.log(response)
-            AuthenticationService.registerLogin(response.headers.authorization, response.headers.username, response.headers.userid)
+            AuthenticationService.registerLogin(response.headers.authorization, response.headers.username, response.headers.userid, response.headers.firstname)
             props.history.push(`/users/${response.headers.userid}`)
         }).catch(error => {
-            console.log(error)
+            console.log(error.response)
+            setErrorMessage("You have entered an invalid username or password")
         })
     }
 
@@ -130,6 +165,7 @@ const LoginModal = (props) => {
             <Wrapper>
                 <Form onSubmit={e => handleSubmit(e)}>
                     <Title>Login</Title>
+                    {errorMessage && <GenAlert>{errorMessage}</GenAlert>}
                     <Container>
                         <Label htmlFor="email">Email</Label>
                         <Input name="email" type="email" value={userDetails.email || ""} onChange={e => handleChange(e)} />

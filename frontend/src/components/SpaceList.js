@@ -77,6 +77,7 @@ const SpaceList = (props) => {
             .then(
                 response => {
                     setSpaceDetails(response.data)
+                    console.log(response.data)
                 }
             )
         } else {
@@ -84,6 +85,7 @@ const SpaceList = (props) => {
             .then(
                 response => {
                     setSpaceDetails(response.data)
+                    console.log(response.data)
                 }
             )
         }
@@ -101,7 +103,6 @@ const SpaceList = (props) => {
 
     return (
         <Wrapper>
-            <div>{spaceDetails.name}</div>
             <SpaceGrid>
             {spaceDetails.map((detail, index) => (
                 <SpaceCard key={detail.externalId} details={detail} index={index} handleDelete={handleDelete} handleUpdate={handleUpdate} />

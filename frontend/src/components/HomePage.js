@@ -19,7 +19,7 @@ const Container = styled.div({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#f2f0f0',
-    padding: '5rem',
+    padding: '4rem 0',
 })
 
 const Intro = styled.p({
