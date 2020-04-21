@@ -21,10 +21,8 @@ const contentStyles = {
 
 const Text = styled.p({
     padding: '0 10px',
-    opacity: '40%',
     color: '#FFFFFF',
     ':hover': {
-        opacity: '100%',
         cursor: 'pointer',
     },
 
@@ -161,7 +159,17 @@ const SignupModal = (props) => {
             }, 0)
         }).catch(error => {
             console.log(error.response)
-            setErrorMessage("There is an existing account for that email address")
+            if(userDetails.firstName === null) {
+                setErrorMessage("Please enter your first name")
+            } else if(userDetails.lastName === null) {
+                setErrorMessage("Please enter your last name")
+            } else if(userDetails.email === null) {
+                setErrorMessage("Please enter a valid email address")
+            } else if(userDetails.password === null) {
+                setErrorMessage("Please enter a password")
+            } else {
+                setErrorMessage("There is an existing account for that email address")
+            }
         })
     }
 

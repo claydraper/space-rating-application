@@ -13,6 +13,7 @@ const Wrapper = styled.div({
     maxWidth: '100vw',
     padding: '4rem 5rem',
     minHeight: '88%',
+    backgroundColor: '#EFF2F1',
 })
 
 const Name = styled.h1({
@@ -183,8 +184,8 @@ const DisplaySpacePage = (props) => {
                 }
                 <StarRatings
                     rating={spaceDetails.starRating}
-                    starRatedColor="#f7bf23"
-                    starHoverColor="#f7bf23"
+                    starRatedColor="#F9CB40"
+                    starHoverColor="#F9CB40"
                     starDimension="1.5rem"
                     starSpacing="0.25rem"
                     numberOfStars={5}

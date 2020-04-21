@@ -26,9 +26,9 @@ const IWrap = styled.div({
 const Edit = styled.i({
     color: '#a8a8a8',
     padding: '0 2px',
-    textShadow: '1px 1px black',
+    textShadow: '1px 1px 1px black',
     ':hover': {
-        color: '#f2df6f',
+        color: '#FFD884',
         cursor: 'pointer'
     }
 })
@@ -36,9 +36,9 @@ const Edit = styled.i({
 const Delete = styled.i({
     color: '#a8a8a8',
     padding: '0 2px',
-    textShadow: '1px 1px black',
+    textShadow: '1px 1px 1px black',
     ':hover': {
-        color: '#d63838',
+        color: '#F45B69',
         cursor: 'pointer'
     }
 })
@@ -47,6 +47,7 @@ const Img = styled.img({
     width: '100%',
     borderRadius: '3px',
     border: '2px solid ',
+    maxHeight: '210px'
 })
 
 const Name = styled.h3({
@@ -71,8 +72,8 @@ const SpaceCard = (props) => {
             <Container>
             <StarRatings
                 rating={props.details.starRating}
-                starRatedColor="#f7bf23"
-                starHoverColor="#f7bf23"
+                starRatedColor="#F9CB40"
+                starHoverColor="#F9CB40"
                 starDimension="1.5rem"
                 starSpacing="0.25rem"
                 numberOfStars={5}

@@ -16,10 +16,12 @@ const Wrapper = styled.div({
     maxWidth: '100vw',
     alignItems: 'center',
     fontFamily: 'raleway',
+    backgroundColor: '#EFF2F1',
 })
 
 const Title = styled.h2({
-    marginBottom: '1rem'
+    marginBottom: '1rem',
+    fontSize: '22px'
 })
 
 const Form = styled.form({
@@ -29,7 +31,7 @@ const Form = styled.form({
     height: '100%',
     width: '50%',
     maxHeight: '650px',
-    marginTop: '1rem',
+    marginTop: '2rem',
 })
 
 const Container = styled.div({
@@ -123,6 +125,7 @@ const DescInput = styled.textarea({
     resize: 'none',
     border: '1px solid #8a8a8a',
     borderRadius: '3px',
+    padding: '0.1rem'
 })
 
 const Input = styled.input({
@@ -131,6 +134,7 @@ const Input = styled.input({
     fontSize: '14px',
     border: '1px solid #8a8a8a',
     borderRadius: '3px',
+    padding: '0.1rem'
 })
 
 const Slider = styled.input({
@@ -142,13 +146,15 @@ const StateSelect = styled.select({
     outline: 'none',
     width: '18%',
     border: '1px solid #8a8a8a',
+    backgroundColor: '#FFFFFF',
 })
 
 const PriceSelect = styled.select({
     outline: 'none',
     width: '5rem',
     border: '1px solid #8a8a8a',
-    marginLeft: '0.5rem'
+    marginLeft: '0.5rem',
+    backgroundColor: '#FFFFFF'
 })
 
 const PriceContainer = styled.div({
@@ -160,17 +166,18 @@ const PriceContainer = styled.div({
 const BrowseLabel = styled.label({
     fontSize: '12px',
     cursor: 'pointer',
-    border: '1px solid #2499bf',
-    color: '#2499bf',
+    border: '1px solid #323DC7',
+    color: '#323DC7',
+    backgroundColor: '#FFFFFF',
     width: '5rem',
     borderRadius: '5px',
     textAlign: 'center',
     height: '1.1rem',
     lineHeight: '1.1rem',
     ':active': {
-        backgroundColor: '#2499bf',
-        color: 'white',
-        border: '1px solid white'
+        backgroundColor: '#323DC7',
+        color: '#FFFFFF',
+        border: '1px solid #FFFFFF'
     }
 })
 
@@ -190,12 +197,13 @@ const Upload = styled.button({
     height: '1.1rem',
     borderRadius: '5px',
     fontSize: '12px',
-    border: '1px solid #81bf67',
-    color: '#81bf67',
+    border: '1px solid #07933E',
+    color: '#07933E',
+    backgroundColor: '#FFFFFF',
     ':active': {
-        backgroundColor: '#81bf67',
-        color: 'white',
-        border: '1px solid white'
+        backgroundColor: '#07933E',
+        color: '#FFFFFF',
+        border: '1px solid #FFFFFF'
     }
 })
 
@@ -227,7 +235,9 @@ const Submit = styled.button({
     marginTop: '1rem',
     padding: '0.25rem 0',
     borderRadius: '3px',
-    color: '#FFFFFF',
+    color: '#EFF2F1',
+    fontWeight: '600',
+    fontSize: '12px',
     backgroundColor: '#2456e0',
     outline: 'none',
     ':hover': {
@@ -334,7 +344,7 @@ const ManageSpacePage = (props) => {
     // photos upload to imgbb api and return image address
     const handleUpload = () => {
             const photoArray = [...spaceDetails.photos]
-            setUploadStatus(true)
+            setUploadStatus("uploading")
             photoArray.forEach((photo, i) => {
                 let form_data = new FormData();
                 form_data.append('image', spaceDetails.photos[i]);
@@ -351,7 +361,7 @@ const ManageSpacePage = (props) => {
                         setTimeout( () => { // workaround to allow time for api response before setting state
                             setImgbbAddress([...imgbbAddress])
                             console.log("final state: :", imgbbAddress)
-                            setUploadStatus(false)
+                            setUploadStatus("complete")
                             setUploadMessage(null)
                         }, 1000)
                     }
@@ -401,7 +411,7 @@ const ManageSpacePage = (props) => {
         }
 
         // prevent submit if photos still uploading
-        if (uploadStatus) {
+        if (uploadStatus === "uploading") {
             setUploadMessage("Please wait until photos are finished uploading before submitting")
             return
         }
@@ -426,7 +436,7 @@ const ManageSpacePage = (props) => {
 
                 let timeout = window.setTimeout(() => {
                     props.history.replace(`/users/${sessionStorage.userID}`, { successfulSubmit: false })
-                }, 2000)
+                }, 3000)
 
                 window.onclick = () => {
                     clearTimeout(timeout)
@@ -462,7 +472,7 @@ const ManageSpacePage = (props) => {
                 props.history.push(`/users/${sessionStorage.userID}`, { successfulUpdate: true })
                 let timeout = window.setTimeout(() => {
                     props.history.replace(`/users/${sessionStorage.userID}`, { successfulUpdate: false })
-                }, 2000)
+                }, 3000)
 
                 window.onclick = () => {
                     clearTimeout(timeout)
@@ -501,8 +511,8 @@ const ManageSpacePage = (props) => {
                     </Container>
                     <Container>
                         <Label htmlFor="state" >State*</Label>
-                        <StateSelect onChange={(e) => handleChange(e)} name="state" value={spaceDetails.state || ""}>
-                            <option value="default selected">-- select --</option>
+                        <StateSelect onChange={(e) => handleChange(e)} name="state" value={spaceDetails.state || "--select--"}>
+                            <option hidden value="--select--">-- select --</option>
                             <option value="AL">Alabama</option>
                             <option value="AK">Alaska</option>
                             <option value="AZ">Arizona</option>
@@ -563,8 +573,8 @@ const ManageSpacePage = (props) => {
                     <RatingContainer>
                         <PriceContainer>
                             <Label htmlFor="priceRange">Price Range*</Label>
-                            <PriceSelect name="priceRange" onChange={e => handleChange(e)} value={spaceDetails.priceRange || ""} >
-                                <option value="default selected">-- select --</option>
+                            <PriceSelect name="priceRange" onChange={e => handleChange(e)} value={spaceDetails.priceRange || "--select--"} >
+                                <option hidden value="--select--">-- select --</option>
                                 <option value="NA">N/A</option>
                                 <option value="$">$</option>
                                 <option value="$$">$$</option>
@@ -637,8 +647,8 @@ const ManageSpacePage = (props) => {
                         <Label htmlFor="rating">Overall Rating</Label>
                         <StyledStarRatings
                             rating={starRating}
-                            starRatedColor="#f7bf23"
-                            starHoverColor="#f7bf23"
+                            starRatedColor="#F9CB40"
+                            starHoverColor="#F9CB40"
                             starDimension="1.5rem"
                             starSpacing="0.25rem"
                             changeRating={changeRating}
@@ -672,7 +682,8 @@ const ManageSpacePage = (props) => {
                             </InlineContainer>
                             <InlineContainer>
                                 <Upload type="button" onClick={handleUpload}>Upload<I className="fas fa-cloud-upload-alt"></I></Upload>
-                                {uploadStatus && <StyledCircularProgress color="primary" size="0.75rem" />}
+                                {uploadStatus === "uploading" && <StyledCircularProgress color="primary" size="0.75rem" />}
+                                {uploadStatus === "complete" && <PhotoStatusText>upload complete</PhotoStatusText>}
                             </InlineContainer>
                         </ButtonContainer>
                     </Container>

@@ -8,7 +8,8 @@ const Wrapper = styled.div({
     display: 'flex',
     flexDirection: 'column',
     height: '88%',
-    alignItems: 'center'
+    alignItems: 'center',
+    backgroundColor: '#EFF2F1',
 })
 
 const Title = styled.h1({

@@ -13,6 +13,7 @@ const Wrapper = styled.div({
     flexDirection: 'column',
     maxWidth: '100vw',
     minHeight: '88%',
+    backgroundColor: '#EFF2F1',
 })
 
 const Container = styled.div({
@@ -20,8 +21,8 @@ const Container = styled.div({
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#f2f0f0',
-    padding: '4rem 0',
+    backgroundColor: '#DEE2DF',
+    padding: '4rem 0 5rem 0',
 })
 
 const Intro = styled.p({
@@ -31,10 +32,10 @@ const Intro = styled.p({
 })
 
 const CreateButton = styled.button({
-    borderRadius: '3px',
+    borderRadius: '5px',
     padding: '0.5rem',
     backgroundColor: '#2456e0',
-    color: '#FFFFFF',
+    color: '#EFF2F1',
     fontSize: '16px',
     marginTop: '1rem',
     outline: 'none',
@@ -55,8 +56,8 @@ const Success = styled.div({
     width: '50%',
     justifyContent: 'center',
     alignItems: 'center',
-    color: '#286620',
-    backgroundColor: '#adf7a3',
+    color: '#07933E',
+    backgroundColor: '#A9ED98',
     borderRadius: '8px',
 
 })

@@ -11,15 +11,15 @@ const Wrapper = styled.div({
     flexDirection: 'column',
     maxWidth: '100vw',
     minHeight: '88%',
+    backgroundColor: '#EFF2F1'
 })
 
 const Container = styled.div({
     display: 'flex',
     flexDirection: 'column',
-    justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#f2f0f0',
-    padding: '4rem 0',
+    backgroundColor: '#DEE2DF',
+    padding: '3rem 0 5rem 0',
 })
 
 const Intro = styled.p({

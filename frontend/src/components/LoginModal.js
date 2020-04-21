@@ -21,10 +21,8 @@ const contentStyles = {
 
 const Text = styled.p({
     padding: '0 10px',
-    opacity: '40%',
     color: '#FFFFFF',
     ':hover': {
-        opacity: '100%',
         cursor: 'pointer',
     },
 

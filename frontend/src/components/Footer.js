@@ -5,7 +5,7 @@ import styled from 'styled-components';
 
 // styled components
 const Wrapper = styled.div({
-    backgroundColor: '#33333D',
+    backgroundColor: '#323DC7',
     color: '#FFFFFF',
     height: '60px',
     lineHeight: '60px',

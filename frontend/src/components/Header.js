@@ -15,13 +15,14 @@ const Wrapper = styled.div({
     width: '100vw',
     height: '60px',
     alignItems: 'center',
-    backgroundColor: '#33333D',
+    backgroundColor: '#323DC7',
     color: '#FFFFFF',
+    paddingRight: '1rem'
 })
 
 const Brand = styled.div({
     padding: '0 1.5rem',
-    fontSize: '22px'
+    fontSize: '22px',
 })
 
 const Ul = styled.ul({
@@ -31,21 +32,13 @@ const Ul = styled.ul({
 })
 
 const Li = styled.li({
-    padding: '0 10px',
-    opacity: '60%',
-    ':hover': {
-        opacity: '100%'
-    }
+    padding: '0 10px 0 0',
 })
 
 const StyledLink = styled(Link)({
     display: 'block',
     padding: '0 10px',
-    opacity: '40%',
     color: '#FFFFFF',
-    ':hover': {
-        opacity: '100%'
-    },
     textDecoration: 'none',
 
     '::after': {
@@ -72,7 +65,7 @@ const StyledLink = styled(Link)({
     },
 })
 
-const I = styled.i({
+const BrandIcon = styled.i({
     padding: '0 3px',
     fontSize: '22px',
 })
@@ -80,6 +73,11 @@ const I = styled.i({
 const A = styled.a({
     textDecoration: 'none',
     color: '#FFFFFF'
+})
+
+const I = styled.i({
+    fontSize: '14px',
+    paddingRight: '0.25rem'
 })
 
 // component definition
@@ -92,12 +90,12 @@ const Header = (props) => {
 
     return (
         <Wrapper>
-            <Brand><A href="/"><I className="fas fa-star-half-alt" />Third Rate</A></Brand>
+            <Brand><A href="/"><BrandIcon className="fas fa-star-half-alt" />Third Rate</A></Brand>
             <Ul>
-                {!sessionStorage.username && <Li><SignupModal>Sign up</SignupModal></Li>}
-                {!sessionStorage.username && <Li><LoginModal>Login</LoginModal></Li>}
-                {sessionStorage.userID && <Li><StyledLink className="link" to={`/users/${sessionStorage.userID}`} >My profile</StyledLink></Li>}
-                {sessionStorage.username && <Li><StyledLink className="link" to="/" onClick={handleLogout}>Logout</StyledLink></Li>}
+                {!sessionStorage.username && <Li><SignupModal><I className="fas fa-user-plus"></I>Sign up</SignupModal></Li>}
+                {!sessionStorage.username && <Li><LoginModal><I className="fas fa-sign-in-alt"></I>Login</LoginModal></Li>}
+                {sessionStorage.userID && <Li><StyledLink className="link" to={`/users/${sessionStorage.userID}`} ><I className="fas fa-user-circle"></I>My profile</StyledLink></Li>}
+                {sessionStorage.username && <Li><StyledLink className="link" to="/" onClick={handleLogout}><I className="fas fa-sign-out-alt"></I>Logout</StyledLink></Li>}
             </Ul>
         </Wrapper>
     )
