@@ -7,8 +7,9 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.spaceRatingApp.SpaceRepository;
-import com.spaceRatingApp.entity.SpaceEntity;
+import com.spaceRatingApp.io.entity.SpaceEntity;
+import com.spaceRatingApp.io.repositories.SpaceRepository;
+import com.spaceRatingApp.io.repositories.UserRepository;
 import com.spaceRatingApp.service.SpaceService;
 import com.spaceRatingApp.shared.SpaceDto;
 import com.spaceRatingApp.shared.Utils;
@@ -20,6 +21,9 @@ public class SpaceServiceImpl implements SpaceService {
 	
 	@Autowired
 	SpaceRepository spaceRepository;
+	
+	@Autowired
+	UserRepository userRepository;
 	
 	@Autowired
 	Utils utils;
@@ -44,7 +48,7 @@ public class SpaceServiceImpl implements SpaceService {
 	public List<SpaceDto> getAllSpaces() {
 		List<SpaceDto> returnValue = new ArrayList<>();
 				
-		List<SpaceEntity> spaces =  (List<SpaceEntity>) spaceRepository.findAll();
+		List<SpaceEntity> spaces = (List<SpaceEntity>) spaceRepository.findAll();
 		
 		for(SpaceEntity spaceEntity : spaces) {
 			SpaceDto spaceDto = new SpaceDto();
@@ -79,11 +83,14 @@ public class SpaceServiceImpl implements SpaceService {
 		SpaceDto returnValue = new SpaceDto();
 		
 		SpaceEntity spaceEntity = spaceRepository.findByExternalId(externalId);
+		
+		List<String> updatedPhotoList = new ArrayList<String>(spaceEntity.getPhotos());
+		updatedPhotoList.addAll(spaceDto.getPhotos());
 				
 		spaceEntity.setCity(spaceDto.getCity());
 		spaceEntity.setDescription(spaceDto.getDescription());
 		spaceEntity.setName(spaceDto.getName());
-		spaceEntity.setPhoto(spaceDto.getPhoto());
+		spaceEntity.setPhotos(updatedPhotoList);
 		spaceEntity.setState(spaceDto.getState());
 		spaceEntity.setPluginAccess(spaceDto.getPluginAccess());
 		spaceEntity.setNoiseLevel(spaceDto.getNoiseLevel());
@@ -96,6 +103,24 @@ public class SpaceServiceImpl implements SpaceService {
 		
 		BeanUtils.copyProperties(updatedSpaceDetails, returnValue);
 		
+		return returnValue;
+	}
+
+	@Override
+	public List<SpaceDto> getAllSpacesByUserId(String userId) {
+		List<SpaceDto> returnValue = new ArrayList<>();
+		
+//		if (userRepository.findByUserId(userId) == null) {
+//			return null;
+//		}
+		
+		List<SpaceEntity> spaces = (List<SpaceEntity>) spaceRepository.findAllByUserId(userId);
+		
+		for(SpaceEntity spaceEntity : spaces) {
+			SpaceDto spaceDto = new SpaceDto();
+			BeanUtils.copyProperties(spaceEntity, spaceDto);
+			returnValue.add(spaceDto);
+		}
 		return returnValue;
 	}
 

@@ -15,7 +15,40 @@ import SpacesDataService from '../apis/spaces/SpacesDataService';
 
 // styled components
 const Wrapper = styled.div({
-    
+    display: 'flex',
+    flexDirection: 'column',
+})
+
+const SortContainer = styled.div({
+    display: 'flex',
+    justifyContent: 'center',
+    margin: '-2rem 0 1rem 0',
+    alignItems: 'center'
+})
+
+const SortButton = styled.button({
+    width: '5rem',
+    height: '1.25rem',
+    marginLeft: '0.5rem',
+    borderRadius: '5px',
+    backgroundColor: '#1ca350',
+    fontSize: '14px',
+    outline: 'none',
+    color: '#EFF2F1',
+    border: '1px solid #000000',
+    ':active': {
+        backgroundColor: '#badbc8',
+        color: '#07933E',
+    }
+})
+
+const Select = styled.select({
+    height: '1.25rem',
+    fontSize: '14px',
+    border: '1px solid #000000',
+    color: '#000000',
+    backgroundColor: '#EFF2F1',
+    outline: 'none'
 })
 
 const SpaceGrid = styled.div({
@@ -29,56 +62,71 @@ const SpaceGrid = styled.div({
 // component definition
 const SpaceList = (props) => {
     const [ spaceDetails, setSpaceDetails ] = useState([])
-    //     {
-    //         id: 1,
-    //         name: 'Fayetteville Public Library',
-    //         city: 'Fayetteville',
-    //         state: 'AR',
-    //         description: 'A beautiful library with a coffee shop inside. Lots of seating and great views of the city.',
-    //         photos: [faylib1, faylib2]
-    //     },
-    //     {
-    //         id:2,
-    //         name: 'Joe\'s cafe',
-    //         city: 'Anchorage',
-    //         state: 'AK',
-    //         description: 'This coffee shop has a great atmosphere but is way too noisy.',
-    //         photos: [coffee1]
-    //     },
-    //     {
-    //         id: 3,
-    //         name: 'The Holler',
-    //         city: 'Bentonville',
-    //         state: 'AR',
-    //         description: 'This coffee shop has a great atmosphere but is way too noisy.',
-    //         photos: [holler1]
-    //     },
-    //     {
-    //         id: 4,
-    //         name: 'Onyx Coffee Lab - Downtown Rogers',
-    //         city: 'Rogers',
-    //         state: 'AR',
-    //         description: 'One of the coolest coffee shops I\'ve ever been in. Includes a bakery, a bar, and you can see the entire roasting operation. Plentiful seating (indoor and outdoor), though somewhat noisy.',
-    //         photos: [onyx1]
-    //     },
-    //     {
-    //         id: 5,
-    //         name: 'Big Library',
-    //         city: 'Anchorage',
-    //         state: 'AK',
-    //         description: 'Old library, great architectural style. Lot\'s of seating but can by noisy and has limited outlets for charging.',
-    //         photos: [randlib1]
-    //     },
-    // ])
+    const [ sortCriteria, setSortCriteria ] = useState("")
 
     useEffect(() => {
-        SpacesDataService.getAllSpaces()
-        .then(
-            response => {
-                setSpaceDetails(response.data)
-            }
-        )
+        if(document.URL === `http://localhost:3000/users/${sessionStorage.userID}`) {
+            SpacesDataService.getAllUserSpaces(sessionStorage.userID)
+            .then(
+                response => {
+                    setSpaceDetails(response.data)
+                    console.log(response.data)
+                }
+            )
+        } else {
+            SpacesDataService.getAllSpaces()
+            .then(
+                response => {
+                    setSpaceDetails(response.data)
+                    console.log(response.data)
+                }
+            )
+        }
     }, [])
+
+    const handleSort = () => {
+        let spaceDetailsCopy = [...spaceDetails]
+
+        // sort by star rating, high to low
+        if(sortCriteria === "overall") {
+            let sortedArray = spaceDetailsCopy.sort((a, b) => {
+                return b.starRating - a.starRating
+            })
+            setSpaceDetails(sortedArray)
+        }
+
+        //sort by name, a to z
+        if(sortCriteria === "name") {
+            let sortedArray = spaceDetailsCopy.sort((a, b) => {
+                if (a.name.toUpperCase() < b.name.toUpperCase()) {
+                    return -1
+                }
+                if (a.name.toUpperCase() > b.name.toUpperCase()) {
+                    return 1
+                }
+                return 0
+            })
+            setSpaceDetails(sortedArray)
+        }
+
+        // sort by city, a to z
+        if(sortCriteria === "city") {
+            let sortedArray = spaceDetailsCopy.sort((a, b) => {
+                if (a.city.toUpperCase() < b.city.toUpperCase()) {
+                    return -1
+                }
+                if (a.city.toUpperCase() > b.city.toUpperCase()) {
+                    return 1
+                }
+                return 0
+            })
+            setSpaceDetails(sortedArray)
+        }
+    }
+
+    const handleChange = e => {
+        setSortCriteria(e.target.value)
+    }
 
     const handleDelete = (e, externalId, index) => {
         SpacesDataService.deleteSpace(externalId)
@@ -92,7 +140,15 @@ const SpaceList = (props) => {
 
     return (
         <Wrapper>
-            <div>{spaceDetails.name}</div>
+            <SortContainer>
+                <Select defaultValue="Sort by..." onChange={e => handleChange(e)}>
+                    <option disabled>Sort by...</option>
+                    <option value="overall">Overall Rating</option>
+                    <option value="name">Name</option>
+                    <option value="city">City</option>
+                </Select>
+                <SortButton onClick={e => {handleSort(e)}}>Sort</SortButton>
+            </SortContainer>
             <SpaceGrid>
             {spaceDetails.map((detail, index) => (
                 <SpaceCard key={detail.externalId} details={detail} index={index} handleDelete={handleDelete} handleUpdate={handleUpdate} />

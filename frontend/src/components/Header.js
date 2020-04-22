@@ -3,6 +3,10 @@ import React from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import styled from 'styled-components';
 
+// internal dependencies
+import SignupModal from './SignupModal';
+import LoginModal from './LoginModal';
+
 // styled components
 const Wrapper = styled.div({
     display: 'grid',
@@ -11,13 +15,14 @@ const Wrapper = styled.div({
     width: '100vw',
     height: '60px',
     alignItems: 'center',
-    backgroundColor: '#33333D',
+    backgroundColor: '#262ea3',
     color: '#FFFFFF',
+    paddingRight: '1rem'
 })
 
 const Brand = styled.div({
-    padding: '0 5px',
-    fontSize: '22px'
+    padding: '0 1.5rem',
+    fontSize: '22px',
 })
 
 const Ul = styled.ul({
@@ -27,24 +32,40 @@ const Ul = styled.ul({
 })
 
 const Li = styled.li({
-    padding: '0 10px',
-    opacity: '60%',
-    ':hover': {
-        opacity: '100%'
-    }
+    padding: '0 10px 0 0',
 })
 
 const StyledLink = styled(Link)({
+    display: 'block',
     padding: '0 10px',
-    opacity: '40%',
     color: '#FFFFFF',
-    ':hover': {
-        opacity: '100%'
-    },
     textDecoration: 'none',
+
+    '::after': {
+        content: '""',
+        height: '2px',
+        width: '100%',
+        background: 'white',
+        display: 'block',
+        marginTop: '4px',
+        visibility: 'hidden',
+        transform: 'scaleX(0)',
+        transition: '0.3s',
+    },
+
+    '&:hover::after': {
+        content: '""',
+        height: '2px',
+        width: '100%',
+        background: 'white',
+        display: 'block',
+        marginTop: '4px',
+        transform: 'scaleX(1)',
+        visibility: 'visible',
+    },
 })
 
-const I = styled.i({
+const BrandIcon = styled.i({
     padding: '0 3px',
     fontSize: '22px',
 })
@@ -54,15 +75,27 @@ const A = styled.a({
     color: '#FFFFFF'
 })
 
+const I = styled.i({
+    fontSize: '14px',
+    paddingRight: '0.25rem'
+})
+
 // component definition
-const Header = () => {
+const Header = (props) => {
+
+    const handleLogout = () => {
+        sessionStorage.clear()
+        props.history.push("/")
+    }
+
     return (
         <Wrapper>
-            <Brand><A href="/"><I className="fas fa-star-half-alt" />Third Rate</A></Brand>
+            <Brand><A href="/"><BrandIcon className="fas fa-star-half-alt" />Third Rate</A></Brand>
             <Ul>
-                {/* <Li><StyledLink className="link" to="/signup">Sign up</StyledLink></Li>
-                <Li><StyledLink className="link" to="/login">Login</StyledLink></Li>
-                <Li><StyledLink className="link" to="/logout">Logout</StyledLink></Li> */}
+                {!sessionStorage.username && <Li><SignupModal><I className="fas fa-user-plus"></I>Sign up</SignupModal></Li>}
+                {!sessionStorage.username && <Li><LoginModal><I className="fas fa-sign-in-alt"></I>Login</LoginModal></Li>}
+                {sessionStorage.userID && <Li><StyledLink className="link" to={`/users/${sessionStorage.userID}`} ><I className="fas fa-user-circle"></I>My profile</StyledLink></Li>}
+                {sessionStorage.username && <Li><StyledLink className="link" to="/" onClick={handleLogout}><I className="fas fa-sign-out-alt"></I>Logout</StyledLink></Li>}
             </Ul>
         </Wrapper>
     )

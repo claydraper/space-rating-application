@@ -14,6 +14,10 @@ class SpacesDataService {
         return axios.get(`${API_URL}/spaces`)
     }
 
+    getAllUserSpaces(userId) {
+        return axios.get(`${API_URL}/users/${userId}/spaces`)
+    }
+
     getSpace(id) {
         return axios.get(`${API_URL}/spaces/${id}`)
     }

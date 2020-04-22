@@ -1,5 +1,8 @@
 package com.spaceRatingApp.shared;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class SpaceDto {
 	
 	private long id;
@@ -8,12 +11,13 @@ public class SpaceDto {
 	private String city;
 	private String state;
 	private String description;
-	private String photo;
+	private List<String> photos = new ArrayList<String>();
 	private String webAddress;
 	private String priceRange;
 	private String pluginAccess;
 	private String noiseLevel;
 	private String seating;
+	private String userId;
 	private int starRating;
 	
 	
@@ -54,11 +58,11 @@ public class SpaceDto {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	public String getPhoto() {
-		return photo;
+	public List<String> getPhotos() {
+		return photos;
 	}
-	public void setPhoto(String photo) {
-		this.photo = photo;
+	public void setPhotos(List<String> photos) {
+		this.photos = photos;
 	}
 	public String getWebAddress() {
 		return webAddress;
@@ -95,6 +99,12 @@ public class SpaceDto {
 	}
 	public void setStarRating(int starRating) {
 		this.starRating = starRating;
+	}
+	public String getUserId() {
+		return userId;
+	}
+	public void setUserId(String userId) {
+		this.userId = userId;
 	}
 
 }
