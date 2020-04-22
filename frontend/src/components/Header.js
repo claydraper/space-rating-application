@@ -15,7 +15,7 @@ const Wrapper = styled.div({
     width: '100vw',
     height: '60px',
     alignItems: 'center',
-    backgroundColor: '#323DC7',
+    backgroundColor: '#262ea3',
     color: '#FFFFFF',
     paddingRight: '1rem'
 })

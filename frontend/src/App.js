@@ -13,6 +13,7 @@ import Header from './components/Header';
 import Footer from './components/Footer';
 import ErrorPage from './components/ErrorPage';
 import DisplayUserPage from './components/DisplayUserPage';
+import AboutPage from './components/AboutPage';
 
 const Wrapper = styled.div({
   height: '100vh',
@@ -31,6 +32,7 @@ function App() {
           <AuthenticatedRoute path="/spaces/:id" exact component={ManageSpacePage} />
           <Route path="/spaces/view/:id" component={DisplaySpacePage} />
           <AuthenticatedRoute path="/users/:id" component={DisplayUserPage} />
+          <Route path="/about" component={AboutPage} />
           <Route component={ErrorPage} />
         </Switch>
         <Footer />

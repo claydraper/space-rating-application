@@ -31,9 +31,8 @@ const SortButton = styled.button({
     height: '1.25rem',
     marginLeft: '0.5rem',
     borderRadius: '5px',
-    backgroundColor: '#07933E',
+    backgroundColor: '#1ca350',
     fontSize: '14px',
-    // fontWeight: '600',
     outline: 'none',
     color: '#EFF2F1',
     border: '1px solid #000000',
@@ -46,10 +45,10 @@ const SortButton = styled.button({
 const Select = styled.select({
     height: '1.25rem',
     fontSize: '14px',
-    // fontWeight: '600',
     border: '1px solid #000000',
     color: '#000000',
     backgroundColor: '#EFF2F1',
+    outline: 'none'
 })
 
 const SpaceGrid = styled.div({
@@ -109,6 +108,20 @@ const SpaceList = (props) => {
             })
             setSpaceDetails(sortedArray)
         }
+
+        // sort by city, a to z
+        if(sortCriteria === "city") {
+            let sortedArray = spaceDetailsCopy.sort((a, b) => {
+                if (a.city.toUpperCase() < b.city.toUpperCase()) {
+                    return -1
+                }
+                if (a.city.toUpperCase() > b.city.toUpperCase()) {
+                    return 1
+                }
+                return 0
+            })
+            setSpaceDetails(sortedArray)
+        }
     }
 
     const handleChange = e => {
@@ -132,6 +145,7 @@ const SpaceList = (props) => {
                     <option disabled>Sort by...</option>
                     <option value="overall">Overall Rating</option>
                     <option value="name">Name</option>
+                    <option value="city">City</option>
                 </Select>
                 <SortButton onClick={e => {handleSort(e)}}>Sort</SortButton>
             </SortContainer>

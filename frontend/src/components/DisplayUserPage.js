@@ -34,7 +34,7 @@ const Intro = styled.p({
 const CreateButton = styled.button({
     borderRadius: '5px',
     padding: '0.5rem',
-    backgroundColor: '#2456e0',
+    backgroundColor: '#3945e3',
     color: '#EFF2F1',
     fontSize: '16px',
     marginTop: '1rem',
@@ -56,8 +56,8 @@ const Success = styled.div({
     width: '50%',
     justifyContent: 'center',
     alignItems: 'center',
-    color: '#07933E',
-    backgroundColor: '#A9ED98',
+    color: '#068036',
+    backgroundColor: '#a5ed93',
     borderRadius: '8px',
 
 })

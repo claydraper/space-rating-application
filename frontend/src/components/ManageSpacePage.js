@@ -166,8 +166,8 @@ const PriceContainer = styled.div({
 const BrowseLabel = styled.label({
     fontSize: '12px',
     cursor: 'pointer',
-    border: '1px solid #323DC7',
-    color: '#323DC7',
+    border: '1px solid #3945e3',
+    color: '#3945e3',
     backgroundColor: '#FFFFFF',
     width: '5rem',
     borderRadius: '5px',
@@ -175,7 +175,7 @@ const BrowseLabel = styled.label({
     height: '1.1rem',
     lineHeight: '1.1rem',
     ':active': {
-        backgroundColor: '#323DC7',
+        backgroundColor: '#3945e3',
         color: '#FFFFFF',
         border: '1px solid #FFFFFF'
     }
@@ -238,13 +238,13 @@ const Submit = styled.button({
     color: '#EFF2F1',
     fontWeight: '600',
     fontSize: '12px',
-    backgroundColor: '#2456e0',
+    backgroundColor: '#3945e3',
     outline: 'none',
     ':hover': {
         cursor: 'pointer',
     },
     ':active': {
-        color: '#2456e0',
+        color: '#3945e3',
         backgroundColor: '#a1bbe6'
     },
 })
@@ -338,7 +338,6 @@ const ManageSpacePage = (props) => {
     const handleImageChange = e => {
         setSpaceDetails({ ...spaceDetails, photos: e.target.files })
         setCounter({fileCounter: e.target.files.length})
-        console.log(counter.fileCounter)
     };
 
     // photos upload to imgbb api and return image address
@@ -363,7 +362,7 @@ const ManageSpacePage = (props) => {
                             console.log("final state: :", imgbbAddress)
                             setUploadStatus("complete")
                             setUploadMessage(null)
-                        }, 1000)
+                        }, 3000)
                     }
                 })
                 .catch(error => {
@@ -381,10 +380,10 @@ const ManageSpacePage = (props) => {
         }
     }
 
+    // prevents pasting beyond character limit in description text area
     const handlePaste = e => { 
         e.preventDefault()
         const pasteValue = e.clipboardData.getData('text/plain').slice(0, 300 - e.target.value.length)
-        console.log(pasteValue)
         const newDescription = spaceDetails.description + pasteValue
         setSpaceDetails({...spaceDetails, description: newDescription})
         setCounter({...counter, descriptionCounter: 300 - newDescription.length})

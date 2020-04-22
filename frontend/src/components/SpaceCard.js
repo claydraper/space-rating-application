@@ -51,7 +51,7 @@ const Img = styled.img({
 })
 
 const Name = styled.h3({
-    color: '#2456e0'
+    color: '#3945e3'
 })
 
 const Location = styled.p({
