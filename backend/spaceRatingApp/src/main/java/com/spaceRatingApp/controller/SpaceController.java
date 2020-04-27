@@ -20,7 +20,7 @@ import com.spaceRatingApp.service.SpaceService;
 import com.spaceRatingApp.shared.SpaceDto;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "http://thirdrate.s3-website.us-east-2.amazonaws.com/")
 public class SpaceController {
 	
 	@Autowired

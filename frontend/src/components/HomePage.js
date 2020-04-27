@@ -45,19 +45,19 @@ const Intro = styled.p({
 //     }
 // })
 
-const Success = styled.div({
-    position: 'absolute',
-    top: '5rem',
-    display: 'flex',
-    height: '40px',
-    width: '50%',
-    justifyContent: 'center',
-    alignItems: 'center',
-    color: '#286620',
-    backgroundColor: '#adf7a3',
-    borderRadius: '8px',
+// const Success = styled.div({
+//     position: 'absolute',
+//     top: '5rem',
+//     display: 'flex',
+//     height: '40px',
+//     width: '50%',
+//     justifyContent: 'center',
+//     alignItems: 'center',
+//     color: '#286620',
+//     backgroundColor: '#adf7a3',
+//     borderRadius: '8px',
 
-})
+// })
 
 // component definition
 const Home = (props) => {
@@ -74,8 +74,8 @@ const Home = (props) => {
         <>
             <Wrapper>
                 <Container>
-                    {props.history.location.state.successfulUpdate && <Success>Space updated successfully</Success>}
-                    {props.history.location.state.successfulSubmit && <Success>Space created successfully</Success>}
+                    {/* {props.history.location.state.successfulUpdate && <Success>Space updated successfully</Success>}
+                    {props.history.location.state.successfulSubmit && <Success>Space created successfully</Success>} */}
                     <h2>Welcome to Third Rate!</h2>
                     <Intro>Check out the complete list of spaces below. Click the space to view more details. You can also login or signup to create and manage spaces.</Intro>
                     {/* <CreateButton onClick={() => handleCreateClick()}>Create a new space</CreateButton> */}

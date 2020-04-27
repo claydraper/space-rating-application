@@ -65,8 +65,25 @@ const SpaceList = (props) => {
     const [ sortCriteria, setSortCriteria ] = useState("")
 
     useEffect(() => {
-        if(document.URL === `http://localhost:3000/users/${sessionStorage.userID}`) {
-            SpacesDataService.getAllUserSpaces(sessionStorage.userID)
+        // if(document.URL === `http://thirdrate.s3-website.us-east-2.amazonaws.com/users/${sessionStorage.userID}`) {
+        //     SpacesDataService.getAllUserSpaces(sessionStorage.userID)
+        //     .then(
+        //         response => {
+        //             setSpaceDetails(response.data)
+        //             console.log(response.data)
+        //         }
+        //     )
+        // } else {
+        //     SpacesDataService.getAllSpaces()
+        //     .then(
+        //         response => {
+        //             setSpaceDetails(response.data)
+        //             console.log(response.data)
+        //         }
+        //     )
+        // }
+        if(document.URL === `http://thirdrate.s3-website.us-east-2.amazonaws.com/`) {
+            SpacesDataService.getAllSpaces()
             .then(
                 response => {
                     setSpaceDetails(response.data)
@@ -74,7 +91,7 @@ const SpaceList = (props) => {
                 }
             )
         } else {
-            SpacesDataService.getAllSpaces()
+            SpacesDataService.getAllUserSpaces(sessionStorage.userID)
             .then(
                 response => {
                     setSpaceDetails(response.data)

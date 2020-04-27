@@ -11,6 +11,7 @@
 	<groupId>com.spaceRatingApp</groupId>
 	<artifactId>spaceRatingApp</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
+	<!-- <packaging>war</packaging> -->
 	<name>spaceRatingApp</name>
 	<description>Apprenticeship captsone crud app</description>
 
@@ -58,6 +59,13 @@
 			<artifactId>jjwt</artifactId>
 			<version>0.9.1</version>
 		</dependency>
+		
+	<!-- 	<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-tomcat</artifactId>
+			<scope>provided</scope>
+		</dependency> -->
+		
 		
 	</dependencies>
 

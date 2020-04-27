@@ -1,11 +1,9 @@
 // external dependencies
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 
 // internal dependencies
 import SpaceList from './SpaceList';
-import SpacesDataService from '../apis/spaces/SpacesDataService';
-
 
 // styled components
 const Wrapper = styled.div({
