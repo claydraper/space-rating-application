@@ -68,7 +68,7 @@ const SpaceCard = (props) => {
 
     return (
         <Wrapper>
-            {document.URL !== `http://localhost:3000/users/${sessionStorage.userID}` &&
+            {document.URL === `http://thirdrate.s3-website.us-east-2.amazonaws.com/` &&
             <Container>
             <StarRatings
                 rating={props.details.starRating}
@@ -81,8 +81,8 @@ const SpaceCard = (props) => {
             />
             </Container>}
             <IWrap>
-                {document.URL === `http://localhost:3000/users/${sessionStorage.userID}` && <Edit onClick={(e) => props.handleUpdate(e, props.details.externalId)} className="fas fa-edit"></Edit>}
-                {document.URL === `http://localhost:3000/users/${sessionStorage.userID}` && <Delete onClick={(e) => props.handleDelete(e, props.details.externalId, props.index)} className="fas fa-trash-alt"></Delete>}
+                {document.URL !== `http://thirdrate.s3-website.us-east-2.amazonaws.com/` && <Edit onClick={(e) => props.handleUpdate(e, props.details.externalId)} className="fas fa-edit"></Edit>}
+                {document.URL !== `http://thirdrate.s3-website.us-east-2.amazonaws.com/` && <Delete onClick={(e) => props.handleDelete(e, props.details.externalId, props.index)} className="fas fa-trash-alt"></Delete>}
             </IWrap>
             <StyledLink to={`/spaces/view/${props.details.externalId}`} >
                 <Img src={props.details.photos[0]} alt={props.details.name} />
