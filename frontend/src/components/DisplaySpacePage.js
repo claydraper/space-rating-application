@@ -161,7 +161,7 @@ const DisplaySpacePage = (props) => {
         .then(
             response => {
                 setSpaceDetails(response.data)
-                console.log("spacedetails: ", response.data)
+                // console.log("spacedetails: ", response.data)
             }
         )
     }, [])
