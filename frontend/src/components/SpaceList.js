@@ -87,7 +87,7 @@ const SpaceList = (props) => {
             .then(
                 response => {
                     setSpaceDetails(response.data)
-                    console.log(response.data)
+                    // console.log(response.data)
                 }
             )
         } else {
@@ -95,7 +95,7 @@ const SpaceList = (props) => {
             .then(
                 response => {
                     setSpaceDetails(response.data)
-                    console.log(response.data)
+                    // console.log(response.data)
                 }
             )
         }

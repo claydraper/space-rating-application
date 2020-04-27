@@ -337,7 +337,7 @@ const ManageSpacePage = (props) => {
 
     const handleImageChange = e => {
         setSpaceDetails({ ...spaceDetails, photos: e.target.files })
-        setCounter({fileCounter: e.target.files.length})
+        setCounter({...counter, fileCounter: e.target.files.length})
     };
 
     // photos upload to imgbb api and return image address
@@ -362,7 +362,7 @@ const ManageSpacePage = (props) => {
                             console.log("final state: :", imgbbAddress)
                             setUploadStatus("complete")
                             setUploadMessage(null)
-                        }, 3000)
+                        }, 5000)
                     }
                 })
                 .catch(error => {
